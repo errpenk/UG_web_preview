@@ -1,0 +1,20 @@
+/* Refined footer using Ugolini destinations and live collection links. */
+.ugolini-site-footer { background: var(--wp--preset--color--background); color: var(--wp--preset--color--text); }
+.ugolini-footer-grid { display: grid; grid-template-columns: 1.6fr repeat(4, 1fr); gap: clamp(2rem, 4vw, 4rem); padding-block: clamp(4rem, 7vw, 7rem); }
+.ugolini-footer-grid > * { margin-block-start: 0 !important; }
+.ugolini-footer-grid h2,
+.ugolini-footer-grid h3 { color: inherit; }
+.ugolini-footer-grid h3 { margin: 0 0 1.5rem; font-family: var(--wp--preset--font-family--interface); font-size: 0.68rem; font-weight: 650; letter-spacing: 0.12em; text-transform: uppercase; }
+.ugolini-footer-grid .wp-block-navigation-item__content,
+.ugolini-footer-collection-links a { min-height: 32px; display: inline-flex; align-items: center; color: inherit; font-size: 0.84rem; text-decoration: none; }
+.ugolini-footer-grid .wp-block-navigation__container { align-items: flex-start; gap: 0.35rem !important; margin: 0; }
+.ugolini-footer-grid .wp-block-navigation-item { margin-block-start: 0 !important; }
+.ugolini-footer-collection-links { margin: 0; padding: 0; list-style: none; }
+.ugolini-footer-grid a:hover { text-decoration: none; }
+.ugolini-footer-brand p { color: var(--wp--preset--color--secondary-text); }
+.ugolini-footer-brand .wp-block-site-logo img { filter: brightness(0); }
+.ugolini-footer-brand .wp-block-site-logo:not(:empty) + .wp-block-site-title { display: none; }
+.ugolini-footer-social { margin-top: 1.25rem; }
+.ugolini-footer-bottom { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; padding-block: 1.5rem; border-top: 1px solid var(--wp--preset--color--border); font-size: 0.68rem; }
+.ugolini-footer-bottom p { margin: 0; }
+.ugolini-legal-entity { max-width: 62rem; color: var(--wp--preset--color--secondary-text); }

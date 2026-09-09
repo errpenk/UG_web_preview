@@ -1,0 +1,171 @@
+/* SureCart 4.6.6 public blocks and supported theme variables only. */
+:root {
+	--sc-color-primary-500: var(--wp--preset--color--text);
+	--sc-color-primary-600: var(--wp--preset--color--brand-dark);
+	--sc-color-primary-text: var(--wp--preset--color--white);
+	--sc-focus-ring-color-primary: var(--wp--preset--color--brand);
+	--sc-input-border-color-focus: var(--wp--preset--color--brand);
+	--sc-input-border-color: var(--wp--preset--color--border);
+	--sc-input-background-color: var(--wp--preset--color--white);
+	--sc-input-color: var(--wp--preset--color--text);
+	--sc-panel-border-color: var(--wp--preset--color--border);
+	--sc-border-radius-small: 0px;
+	--sc-border-radius-medium: 0px;
+	--sc-border-radius-large: 0px;
+	--sc-font-sans: var(--wp--preset--font-family--interface);
+	--sc-input-height-medium: 50px;
+	--sc-button-height-medium: 50px;
+}
+
+:where([class^="wp-block-surecart-"], [class*=" wp-block-surecart-"], sc-product-list, sc-product-page, sc-cart, sc-checkout, sc-customer-dashboard) { font-family: var(--wp--preset--font-family--interface); }
+.ugolini-product-list { width: min(calc(100% - (2 * var(--ugolini-gutter))), var(--ugolini-container)); max-width: var(--ugolini-container); margin-inline: auto; }
+.ugolini-shop-tabs { width: min(calc(100% - (2 * var(--ugolini-gutter))), var(--ugolini-container)); display: flex; gap: 0.75rem; margin: 0 auto 2rem; overflow-x: auto; }
+.ugolini-shop-tabs a { flex: 0 0 auto; height: 48px; display: inline-flex; align-items: center; padding-inline: 1.35rem; border: 1px solid var(--wp--preset--color--text); border-radius: 999px; color: var(--wp--preset--color--text); font-size: 0.78rem; text-decoration: none; }
+.ugolini-shop-tabs a:hover,
+.ugolini-shop-tabs a.is-active,
+.ugolini-shop-tabs a[aria-current="page"] { border-color: var(--wp--preset--color--text); background: var(--wp--preset--color--text); color: var(--wp--preset--color--white); }
+.ugolini-product-template { width: 100%; gap: clamp(1.25rem, 2.2vw, 2rem) !important; }
+.ugolini-product-card { min-width: 0; padding-bottom: 0.75rem; }
+.ugolini-product-card-media { aspect-ratio: 1 !important; min-height: 0 !important; margin: 0 0 1rem; overflow: hidden; background: var(--wp--preset--color--beige); }
+.ugolini-product-card-media .wp-block-cover__image-background { object-fit: cover; transition: transform 600ms ease; }
+.ugolini-product-card:hover .wp-block-cover__image-background { transform: scale(1.035); }
+.ugolini-product-card-meta { min-height: 1.1rem; margin: 0 0 0.3rem; gap: 0.35rem; color: var(--wp--preset--color--secondary-text); font-family: var(--wp--preset--font-family--interface); font-size: 0.62rem; font-weight: 650; letter-spacing: 0.11em; line-height: 1.3; text-transform: uppercase; }
+.ugolini-product-card-meta :where(a, span, li) { color: inherit; font: inherit; letter-spacing: inherit; text-decoration: none; text-transform: inherit; }
+.ugolini-product-card-title { margin: 0.2rem 0 0.55rem; font-family: var(--wp--preset--font-family--display); font-size: clamp(1.05rem, 1.25vw, 1.35rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.18; }
+.ugolini-product-card-title a { text-decoration: none; }
+.ugolini-product-card-price { margin: 0; gap: 0.5rem; font-size: 0.84rem; font-weight: 650; }
+.ugolini-shop-tools { justify-content: flex-end !important; align-items: center !important; gap: 1.5rem !important; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--wp--preset--color--border); }
+.ugolini-shop-tools { --sc-font-size-small: 0.9rem; --sc-font-size-medium: 0.9rem; }
+.ugolini-shop-tools > .wp-block-group { align-items: center !important; }
+.ugolini-shop-tools :where(.wp-block-surecart-product-list-sort, .wp-block-surecart-product-list-filter, .wp-block-surecart-product-list-search) { min-height: 48px; }
+.ugolini-shop-tools :where(button, input, select) { min-height: 48px; border-color: var(--wp--preset--color--border); background: transparent; color: var(--wp--preset--color--text); }
+.ugolini-shop-tools :where(button, label, select, option, [role="button"]) { font-family: var(--wp--preset--font-family--interface); font-size: 0.9rem; font-weight: 600; letter-spacing: 0; line-height: 1.2; text-transform: none; }
+.ugolini-shop-tools :where(button):hover { border-color: var(--wp--preset--color--text); background: var(--wp--preset--color--text); color: var(--wp--preset--color--white); }
+.ugolini-shop-tools .wp-block-surecart-product-list-filter :where(button, [role="button"]) { padding-inline: 0; border: 0; }
+.ugolini-shop-tools .wp-block-surecart-product-list-filter :where(button, [role="button"]):hover { background: transparent; color: var(--wp--preset--color--text); }
+.ugolini-products-section { scroll-margin-top: calc(var(--ugolini-header-height) + 1rem); }
+.ugolini-products-section > .preview-shop { margin-block-start: 0 !important; }
+.ugolini-products-section > .ugolini-section-heading { scroll-margin-top: calc(var(--ugolini-header-height) + 1rem); }
+:where(.wp-block-surecart-product-list-filter, [class*="product-list-filter"]) :where(hr, [role="separator"]) { display: none; }
+:where(.wp-block-surecart-product-list-filter, [class*="product-list-filter"]) input[type="range"] { display: none; }
+
+:where(.wp-block-surecart-product-quick-view-button, .wp-block-surecart-product-sale-badge) { border-radius: 0; }
+:where(.wp-block-surecart-product-page, .wp-block-surecart-product-form) { width: 100%; }
+:where(.wp-block-surecart-product-media img) { background: transparent; }
+.ugolini-product-page { padding: 1.75rem 0 clamp(4rem, 7vw, 7rem) !important; }
+.ugolini-product-breadcrumb { width: min(calc(100% - (2 * var(--ugolini-gutter))), var(--ugolini-container)) !important; max-width: var(--ugolini-container) !important; display: flex; gap: 0.65rem; margin: 0 auto 1.75rem !important; color: var(--wp--preset--color--secondary-text); font-size: 0.74rem; }
+.ugolini-product-breadcrumb a { text-decoration: none; }
+.ugolini-product-columns { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(420px, 0.94fr); gap: clamp(3rem, 5.5vw, 6rem); align-items: start !important; margin-block-start: 0 !important; }
+.ugolini-product-columns > .wp-block-column { width: auto !important; flex-basis: auto !important; }
+.ugolini-product-gallery { padding-left: 88px; overflow: visible !important; }
+.ugolini-product-gallery .sc-image-slider { position: relative; }
+.ugolini-product-gallery .sc-image-slider > .swiper { height: auto !important; aspect-ratio: 1; }
+.ugolini-product-gallery .sc-image-slider__thumbs { position: absolute; z-index: 2; top: 50%; right: auto; bottom: auto; left: -88px; width: 76px; height: 100%; max-height: 100%; display: block !important; visibility: visible !important; opacity: 1 !important; margin: 0 !important; overflow: hidden; transform: translateY(-50%); }
+.ugolini-product-gallery .sc-image-slider__thumbs > :where([role="button"], .sc-image-slider-button__prev, .sc-image-slider-button__next) { display: none; }
+.ugolini-product-gallery .sc-image-slider__thumbs .swiper { width: 100%; height: 100%; display: block !important; overflow-y: auto; }
+.ugolini-product-gallery .sc-image-slider__thumbs .swiper { scrollbar-width: none; }
+.ugolini-product-gallery .sc-image-slider__thumbs .swiper::-webkit-scrollbar { display: none; }
+.ugolini-product-gallery .sc-image-slider__thumbs .swiper-wrapper { min-height: 100%; flex-direction: column; justify-content: center; gap: 0.55rem; transform: none !important; }
+.ugolini-product-gallery .sc-image-slider__thumbs .swiper-wrapper:has(.swiper-slide:nth-child(6)) { justify-content: flex-start; }
+.ugolini-product-gallery .sc-image-slider__thumbs .swiper-slide { width: 76px !important; height: 76px !important; display: block !important; flex: 0 0 76px; visibility: visible !important; opacity: 1 !important; }
+.ugolini-product-gallery :where(.sc-image-slider > .swiper, .swiper-slide, .sc-product-media, .wp-block-surecart-product-media) { background: transparent !important; }
+.ugolini-product-gallery :where(.sc-product-media, .wp-block-surecart-product-media) { aspect-ratio: 1; min-height: 0 !important; height: auto !important; overflow: hidden; }
+.ugolini-product-gallery :where(.sc-product-media, .wp-block-surecart-product-media) > :where(img, picture, figure, div) { max-height: 100%; }
+.ugolini-product-gallery :where(img) { width: 100%; height: 100%; object-fit: contain !important; }
+.ugolini-product-gallery :where([class*="thumbnail"]) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.65rem; }
+.ugolini-product-gallery :where([class*="thumbnail"] button, [class*="thumbnail"] [role="button"]) { width: 100%; aspect-ratio: 3 / 2; overflow: hidden; }
+.ugolini-product-gallery :where([class*="thumbnail"] img) { object-fit: cover !important; }
+.ugolini-product-gallery :where(button, [role="button"]) { min-width: 44px; min-height: 44px; border-color: rgb(23 23 20 / 24%); background: transparent !important; color: var(--wp--preset--color--text); }
+.ugolini-product-gallery :where(button, [role="button"]):hover { border-color: var(--wp--preset--color--white); background: var(--wp--preset--color--white) !important; color: var(--wp--preset--color--text); }
+.ugolini-gallery-count { position: absolute; z-index: 3; right: 1rem; bottom: 1rem; padding: 0.25rem 0.45rem; color: var(--wp--preset--color--text); font-family: var(--wp--preset--font-family--interface); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; }
+.ugolini-product-summary { position: sticky; top: calc(var(--ugolini-header-height) + 2rem); }
+.ugolini-product-summary .wp-block-surecart-product-collection-tags { height: 17.6px !important; min-height: 17.6px !important; display: block !important; margin: 0 0 0.3rem !important; padding: 0; overflow: hidden; }
+.ugolini-product-summary :where(.wp-block-surecart-product-title, h1) { margin: 0.4rem 0 1rem; font-family: var(--wp--preset--font-family--display); font-size: clamp(2.6rem, 4.4vw, 4.8rem) !important; font-weight: 400; letter-spacing: -0.035em; line-height: 1.05; }
+.ugolini-product-summary :where(.wp-block-surecart-product-description, p) { max-width: 42rem; }
+.ugolini-product-price { margin-block: 1.5rem; font-size: clamp(1.7rem, 2.4vw, 2.25rem); font-weight: 650; }
+.ugolini-purchase-note { display: none; }
+.ugolini-product-assurances { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 2rem; padding-block: 1.5rem; border-block: 1px solid var(--wp--preset--color--border); text-align: center; }
+.ugolini-product-assurances span { min-height: 58px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-inline: 0.75rem; font-size: 0.72rem; line-height: 1.35; }
+.ugolini-product-assurances .lucide { width: 24px; height: 24px; margin-bottom: 0.6rem; color: var(--wp--preset--color--brand); }
+.ugolini-product-assurances span + span { border-left: 1px solid var(--wp--preset--color--border); }
+.ugolini-summary-detail { margin: 0; padding-block: 1rem; border: 0; border-bottom: 1px solid var(--wp--preset--color--border); }
+.ugolini-summary-detail summary { cursor: pointer; font-weight: 700; list-style: none; }
+.ugolini-summary-detail summary::-webkit-details-marker { display: none; }
+.ugolini-summary-detail summary::after { content: "+"; float: right; font-weight: 400; }
+.ugolini-summary-detail[open] summary::after { content: "−"; }
+.ugolini-summary-detail p { margin: 0.8rem 0 0; color: var(--wp--preset--color--secondary-text); font-size: 0.88rem; }
+.ugolini-product-information { padding-block: clamp(3rem, 7vw, 7rem); border-top: 1px solid var(--wp--preset--color--border); background: #fff; }
+.ugolini-product-information .wp-block-post-content { width: 100%; max-width: 920px !important; margin-block-start: 0 !important; margin-inline: 0 !important; }
+.ugolini-product-information .wp-block-post-content .ugolini-product-fact p { white-space: normal; }
+.ugolini-product-fact { margin: 0; padding-block: 1.15rem; border: 0; border-top: 1px solid var(--wp--preset--color--border); }
+.ugolini-product-fact:last-child { border-bottom: 1px solid var(--wp--preset--color--border); }
+.ugolini-product-fact summary { cursor: pointer; font-size: 0.76rem; font-weight: 650; letter-spacing: 0.09em; list-style: none; text-transform: uppercase; }
+.ugolini-product-fact summary::-webkit-details-marker { display: none; }
+.ugolini-product-fact summary::after { content: "+"; float: right; font-size: 1rem; font-weight: 400; }
+.ugolini-product-fact[open] summary::after { content: "−"; }
+.ugolini-product-fact p { max-width: 68ch; margin: 1rem 0 0; color: var(--wp--preset--color--secondary-text); white-space: pre-line; }
+:where(.wp-block-surecart-product-buy-buttons) { width: 100%; }
+:where(.wp-block-surecart-product-buy-buttons) { display: flex !important; flex-wrap: nowrap !important; gap: 8px; }
+.ugolini-product-summary > .wp-block-surecart-product-quantity { width: 128px; margin: 1.5rem 0 !important; }
+.ugolini-product-summary > .wp-block-surecart-product-buy-buttons { width: 100%; height: auto; margin: 1rem 0 0 !important; }
+.ugolini-product-summary > .ugolini-product-assurances { clear: both; }
+:where(.wp-block-surecart-product-buy-buttons .wp-block-button, .wp-block-surecart-product-buy-buttons .wp-element-button) { flex: 1 1 12rem; }
+:where(.wp-block-surecart-product-buy-buttons .wp-element-button) { width: 100%; min-height: 54px; }
+:where(.wp-block-surecart-product-buy-buttons) :where(button, .wp-element-button, .wp-block-button__link):hover,
+:where(.wp-block-surecart-product-buy-buttons) :where(button, .wp-element-button, .wp-block-button__link):focus-visible { border-color: var(--wp--preset--color--brand-dark) !important; background: var(--wp--preset--color--brand-dark) !important; color: var(--wp--preset--color--white) !important; }
+:where(.wp-block-surecart-product-quantity-input, .wp-block-surecart-product-quantity-control) { min-height: 46px; }
+.ugolini-product-summary .sc-quantity-selector,
+.ugolini-product-summary .sc-quantity-selector > * { background: var(--wp--preset--color--white) !important; }
+
+:where(.wp-block-surecart-cart-menu-icon-button, .wp-block-surecart-cart-icon) { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+:where(.wp-block-surecart-cart, .wp-block-surecart-slide-out-cart, sc-cart) { color: var(--wp--preset--color--text); }
+:where(.wp-block-surecart-cart-line-item) { padding-block: 1rem; border-bottom: 1px solid var(--wp--preset--color--border); }
+
+:where(.wp-block-surecart-checkout, .surecart-checkout-form, sc-checkout) {
+	--sc-input-border-radius-medium: 0px;
+	--sc-button-border-radius-medium: 0px;
+	--sc-card-border-radius: 0px;
+	color: var(--wp--preset--color--text);
+}
+:where(.surecart-dashboard, .sc-customer-dashboard, [class*="surecart-customer-dashboard"], .surecart-purchase-confirmation) { color: var(--wp--preset--color--text); }
+
+/* Interactive disclosure marks use the same Lucide stroke geometry as the UI. */
+:where(.ugolini-mega-menu > summary, .ugolini-collection-editorial summary, .ugolini-wholesale-services__list summary, .ugolini-faq-item summary, .ugolini-summary-detail summary, .ugolini-product-fact summary)::after {
+	content: "";
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+	flex: 0 0 18px;
+	background: currentColor;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M5 12h14M12 5v14'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M5 12h14M12 5v14'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+:where(.ugolini-mega-menu[open] > summary, .ugolini-collection-editorial details[open] summary, .ugolini-wholesale-services__list details[open] summary, .ugolini-faq-item[open] summary, .ugolini-summary-detail[open] summary, .ugolini-product-fact[open] summary)::after {
+	-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
+	mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:where([class^="wp-block-surecart-"], [class*=" wp-block-surecart-"]) * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+
+/* SureCart's live wrappers must resolve to the same geometry as the preview. */
+.ugolini-deal-rail.alignfull { margin-top: 0 !important; padding-inline: 0 !important; }
+.ugolini-deal-rail .ugolini-product-template { padding: 0 var(--ugolini-gutter) 0.5rem !important; }
+.ugolini-deal-rail .ugolini-product-card .ugolini-product-card-media {
+	display: block;
+	width: calc(100% + 2.4rem);
+	margin: 0 -1.2rem 3.75rem;
+	padding: 0;
+}
+.ugolini-deal-rail .ugolini-deal-thumb { margin: 0; }
+.ugolini-deal-rail .wp-block-surecart-product-quick-view-button { display: none !important; }
+.ugolini-shop-list .wp-block-surecart-product-quick-view-button { display: none !important; }
+.ugolini-shop-list .ugolini-product-card::after {
+	content: "VISTA PRODOTTO";
+	display: block;
+	margin-top: 1.15rem;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.09em;
+}

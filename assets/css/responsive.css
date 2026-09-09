@@ -1,0 +1,180 @@
+/* Intentional tablet/mobile layouts; commerce remains two columns on phones. */
+@media (max-width: 1199px) {
+	:root { --ugolini-header-height: 72px; --ugolini-gutter: 24px; }
+	.ugolini-header-inner { grid-template-columns: minmax(150px, 1fr) auto auto; }
+	.ugolini-header-inner > .wp-block-shortcode { display: none; }
+	.ugolini-header-inner .ugolini-mega-menu { display: none !important; }
+	.ugolini-primary-navigation .ugolini-mobile-shop-link { display: flex !important; }
+	.ugolini-primary-navigation { justify-self: end; }
+	.ugolini-product-template,
+	:where(.wp-block-surecart-product-template) { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+	.ugolini-deal-rail :where(.ugolini-product-template, .preview-product-grid) { display: flex !important; }
+	.ugolini-product-columns { grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr); gap: 2.5rem; }
+	.ugolini-footer-grid { grid-template-columns: 1.5fr repeat(2, 1fr); }
+}
+
+@media (max-width: 767px) {
+	:root { --ugolini-header-height: 66px; --ugolini-gutter: 14px; }
+	html { scroll-behavior: auto; }
+	.ugolini-section { padding-block: var(--wp--preset--spacing--section-mobile); }
+	.ugolini-section-heading { grid-template-columns: 1fr; align-items: start; gap: 1rem; }
+	.ugolini-header-inner { grid-template-columns: 44px minmax(0, 1fr) 112px; gap: 0.5rem; }
+	.ugolini-brand { grid-column: 2; grid-row: 1; justify-self: center; }
+	.ugolini-primary-navigation { grid-column: 1; grid-row: 1; justify-self: start; }
+	.ugolini-header-actions { grid-column: 3; grid-row: 1; grid-template-columns: repeat(3, 34px); gap: 4px; justify-self: end; }
+	.ugolini-header-actions > * { display: inline-flex; }
+	.ugolini-header-actions > .wp-block-shortcode { display: contents; }
+	.ugolini-header-actions :where(.ugolini-search-open, .ugolini-header-icon, .sc-button, .wp-element-button) { width: 34px; min-width: 34px; height: 44px; min-height: 44px; padding-inline: 0.3rem; }
+	.ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open { position: fixed !important; inset: 0 !important; z-index: 1000; width: 100vw !important; height: 100dvh !important; max-height: none !important; padding: 1.5rem; overflow-y: auto; background: var(--wp--preset--color--background); color: var(--wp--preset--color--text); }
+	.ugolini-primary-navigation .wp-block-navigation__responsive-container-content { padding-top: 5rem; align-items: flex-start; }
+	.ugolini-primary-navigation .wp-block-navigation__container { width: 100%; align-items: stretch; gap: 0; }
+	.ugolini-primary-navigation .wp-block-navigation-item { width: 100%; border-bottom: 1px solid var(--wp--preset--color--border); }
+	.ugolini-primary-navigation .wp-block-navigation-item__content { width: 100%; min-height: 64px; font-family: var(--wp--preset--font-family--display); font-size: 1.8rem; font-weight: 400; letter-spacing: -0.01em; text-transform: none; }
+	.ugolini-hero.wp-block-cover { min-height: 78svh; }
+	.ugolini-hero h1 { max-width: 100%; font-size: clamp(3rem, 13vw, 4.5rem); overflow-wrap: normal; }
+	.ugolini-hero-copy { max-width: 100%; font-size: 0.96rem; }
+	.ugolini-trust-grid { grid-template-columns: 1fr; }
+	.ugolini-trust-item + .ugolini-trust-item { border-top: 1px solid var(--wp--preset--color--border); border-left: 0; }
+	.ugolini-showcase { height: auto; min-height: 860px; }
+	.ugolini-showcase { min-height: 680px; aspect-ratio: auto; }
+	.ugolini-showcase__inner > h2 { font-size: clamp(3.25rem, 15vw, 5rem); }
+	.ugolini-showcase__inner { display: flex; flex-direction: column; gap: 1.25rem; }
+	.ugolini-showcase__tabs { width: 100%; display: flex; flex-direction: column; gap: 0; padding-top: 2rem; }
+	.ugolini-showcase__tabs button { font-size: 1.35rem; }
+	.ugolini-showcase__detail { padding-top: 2.25rem; }
+	.ugolini-collection-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+	.ugolini-collection-copy { align-items: flex-start; flex-direction: column; gap: 0.35rem; }
+	.ugolini-product-template,
+	:where(.wp-block-surecart-product-template) { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 1.25rem 0.9rem !important; }
+	.ugolini-editorial-split,
+	.ugolini-editorial-split--reverse,
+	.ugolini-newsletter-inner,
+	.ugolini-dietary-grid,
+	.ugolini-intro-grid,
+	.ugolini-business-grid,
+	.ugolini-contact-grid { grid-template-columns: 1fr; }
+	.ugolini-newsletter-integration { margin-top: 0; }
+	.ugolini-newsletter { height: 620px; min-height: 620px; padding-inline: 0.75rem !important; }
+	.ugolini-newsletter-inner { padding: 2rem 1.25rem; }
+	.ugolini-newsletter-inner h2 { font-size: 2.625rem; }
+	.ugolini-newsletter-form > div { grid-template-columns: 1fr; }
+	.ugolini-testimonials blockquote { flex-basis: 100%; }
+	.ugolini-testimonials blockquote > p { min-height: 0; }
+	.ugolini-timeline__track::before,
+	.ugolini-timeline__track::after { left: 23px; }
+	.ugolini-timeline article { min-height: 0; grid-template-columns: 46px 1fr; gap: 1.25rem; padding-bottom: 4rem; }
+	.ugolini-timeline article > div,
+	.ugolini-timeline article:nth-child(even) > div { grid-column: 2; padding: 0; text-align: left; }
+	.ugolini-timeline article i { grid-column: 1; width: 46px; }
+	.ugolini-timeline article p,
+	.ugolini-timeline article:nth-child(even) p { margin-inline: 0; }
+	.ugolini-collection-editorial__media { min-height: 760px; aspect-ratio: auto; }
+	.ugolini-collection-editorial__content { grid-template-columns: 1fr; gap: 2rem; }
+	.ugolini-collection-editorial__media h2 { font-size: clamp(2.6rem, 13vw, 4.5rem); }
+	.ugolini-single-hero { height: 520px; min-height: 520px; }
+	.ugolini-post-navigation,
+	.ugolini-related-grid { grid-template-columns: 1fr; }
+	.ugolini-post-navigation > :last-child { text-align: left; }
+	.ugolini-page-hero--image.wp-block-cover { height: auto; min-height: 520px; }
+	.ugolini-faq-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+	.ugolini-faq-layout > :first-child { position: static; }
+	.ugolini-faq-section { grid-template-columns: 1fr; gap: 1.5rem; }
+	.ugolini-faq-section > :first-child { position: static; }
+	.ugolini-editorial-split--reverse .ugolini-editorial-copy { order: 2; }
+	.ugolini-editorial-media { min-height: 92vw; }
+	.ugolini-editorial-copy { padding: 3.5rem var(--wp--style--root--padding-right); }
+	.ugolini-campaign-split { min-height: 0; display: flex; aspect-ratio: 5 / 2; }
+	.ugolini-campaign-media { position: absolute; min-height: 0; }
+	.ugolini-campaign-copy { padding: 1.1rem 0; }
+	.ugolini-campaign-copy h2 { margin-bottom: .45rem; font-size: clamp(1.45rem, 7vw, 2.2rem); }
+	.ugolini-campaign-copy p:not(.ugolini-eyebrow) { max-width: 34rem; margin: 0; font-size: .72rem; line-height: 1.35; }
+	.ugolini-campaign-copy .wp-block-buttons { margin-top: .55rem; }
+	.ugolini-campaign-copy .wp-block-button__link { min-height: 38px; padding: .6rem 1rem; font-size: .68rem; }
+	.ugolini-catalogue-panel.wp-block-cover { min-height: 480px; aspect-ratio: auto; }
+	.ugolini-quality-grid,
+	.ugolini-value-grid,
+	.ugolini-wholesale-intro__grid,
+	.ugolini-wholesale-more__grid,
+	.ugolini-b2b-partner,
+	.ugolini-discovery-grid,
+	.ugolini-journal-grid.wp-block-post-template { grid-template-columns: 1fr; }
+	.ugolini-discovery-card.wp-block-cover { min-height: 0; }
+	.ugolini-quality-item { min-height: 200px; }
+	.ugolini-social-proof .ugolini-quality-grid { grid-template-columns: 1fr; }
+	.ugolini-social-proof .ugolini-quality-item + .ugolini-quality-item { border-top: 1px solid var(--wp--preset--color--border); border-left: 0; }
+	.ugolini-home-collections .ugolini-section-heading { margin-bottom: 1.75rem; }
+	.ugolini-home-collections .ugolini-collection-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.ugolini-home-collections .ugolini-collection-copy { align-items: flex-start; flex-direction: column; gap: 0.25rem; }
+	.ugolini-deal-rail .ugolini-product-template > .sc-product-item,
+	.ugolini-deal-rail :where(.ugolini-product-card, .preview-product-card) { flex-basis: 82vw; min-height: 0; }
+	.ugolini-shop-tools { align-items: stretch; }
+	.ugolini-shop-tools > * { width: 100%; }
+	.ugolini-shop-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem; overflow: visible; }
+	.ugolini-shop-tabs a { width: 100%; height: auto; min-height: 44px; justify-content: center; padding: 0.6rem 0.65rem; line-height: 1.25; text-align: center; white-space: normal; }
+	.ugolini-product-columns { display: flex !important; flex-direction: column; }
+	.ugolini-product-columns > .wp-block-column { width: 100% !important; max-width: 100%; flex: 0 0 auto !important; }
+	.ugolini-product-gallery { position: static; align-self: stretch; padding-left: 0; overflow: hidden; }
+	.ugolini-product-gallery :where(.sc-image-slider, .swiper) { width: 100% !important; max-width: 100%; }
+	.ugolini-product-gallery .sc-image-slider__thumbs { position: static; width: auto; height: auto; max-height: none; margin-top: 0.55rem !important; overflow: visible; transform: none; }
+	.ugolini-product-gallery .sc-image-slider__thumbs .swiper { height: auto; overflow-x: auto; }
+	.ugolini-product-gallery .sc-image-slider__thumbs .swiper-wrapper { flex-direction: row; }
+	.ugolini-product-gallery .sc-image-slider__thumbs .swiper-wrapper,
+	.ugolini-product-gallery .sc-image-slider__thumbs .swiper-wrapper:has(.swiper-slide:nth-child(6)) { min-height: 0; justify-content: flex-start; }
+	.ugolini-product-gallery .sc-image-slider__thumbs .swiper-slide { width: 68px !important; height: 68px !important; flex-basis: 68px; }
+	.ugolini-product-summary { position: static; }
+	.ugolini-product-summary > .wp-block-surecart-product-quantity { width: 128px; height: auto; float: none; margin: 1.25rem 0 !important; }
+	.ugolini-product-summary > .wp-block-surecart-product-buy-buttons { width: 100%; height: auto; float: none; margin-top: 1.25rem !important; }
+	.ugolini-product-summary :where(.wp-block-surecart-product-title, h1) { font-size: clamp(2.35rem, 11vw, 3.6rem); }
+	.ugolini-product-gallery :where(.sc-product-media, .wp-block-surecart-product-media) { aspect-ratio: 3 / 2; }
+	.ugolini-search-dialog { padding: 5rem var(--ugolini-gutter) 1rem; }
+	.ugolini-search-dialog-inner { padding: 4rem 1.25rem 2rem; }
+	.ugolini-search-row { grid-template-columns: 1fr; gap: 1rem; }
+	.ugolini-search-dialog form button { width: 100%; }
+	.ugolini-product-information .alignwide { grid-template-columns: 1fr; gap: 1.5rem; }
+	.ugolini-product-information .alignwide > .ugolini-eyebrow { position: static; }
+	.ugolini-b2b-partner__benefits { position: static; min-height: 0; }
+	:where(.ugolini-faq-section > :first-child, .ugolini-product-information .alignwide > .ugolini-eyebrow)::after { display: none; }
+	.ugolini-product-story { grid-template-columns: 1fr; }
+	.ugolini-product-story > img { min-height: 0; aspect-ratio: 1; }
+	.ugolini-cooking-grid { grid-template-columns: 1fr; }
+	.ugolini-cooking-grid article > div { opacity: 1; transform: none; }
+	.ugolini-contact-form { grid-template-columns: 1fr; }
+	.ugolini-b2b-form__row { grid-template-columns: 1fr; }
+	.ugolini-contact-form__wide, .ugolini-contact-form > p { grid-column: auto; }
+	.ugolini-home-story__row,
+	.ugolini-home-story__row--reverse { grid-template-columns: 1fr; gap: 2.5rem; margin-bottom: 5rem; }
+	.ugolini-home-story__row--reverse .ugolini-home-story__gallery { order: 2; }
+	.ugolini-home-story__gallery { grid-template-columns: 1fr 1fr; }
+	.ugolini-story-products { grid-template-columns: 1fr 1fr; }
+	.ugolini-audience-grid { grid-template-columns: 1fr; }
+	.ugolini-audience-grid article { min-width: 0; min-height: 240px; overflow-wrap: anywhere; }
+	.ugolini-wholesale-gallery { grid-template-columns: 1fr 1fr; }
+	.ugolini-wholesale-gallery__copy > * { max-width: 48%; }
+	.ugolini-wholesale-benefits li { grid-template-columns: 1fr; gap: .5rem; }
+	.ugolini-b2b-catalogue .ugolini-catalogue-panel { height: auto; aspect-ratio: 16 / 9; }
+	.ugolini-discovery-art { top: 2.5rem; left: 30%; width: 70%; height: 30%; }
+	.ugolini-footer-grid { grid-template-columns: 1fr 1fr; }
+	.ugolini-footer-grid > :first-child { grid-column: 1 / -1; }
+	.ugolini-footer-bottom { flex-direction: column; }
+}
+
+@media (max-width: 430px) {
+	.ugolini-range-list,
+	.ugolini-footer-grid { grid-template-columns: 1fr; }
+	.ugolini-story-products { grid-template-columns: 1fr; }
+	.ugolini-footer-grid > :first-child { grid-column: auto; }
+}
+
+@media (max-width: 374px) {
+	:root { --ugolini-gutter: 12px; }
+	.ugolini-header-inner { grid-template-columns: 38px minmax(0, 1fr) 96px; gap: 0.25rem; }
+	.ugolini-brand .wp-block-site-title a { width: 126px; height: 56px; }
+	.ugolini-header-actions { grid-template-columns: repeat(3, 30px); gap: 2px; }
+	.ugolini-header-actions :where(.ugolini-search-open, .ugolini-header-icon, .sc-button, .wp-element-button) { width: 30px; min-width: 30px; }
+	.ugolini-product-template,
+	:where(.wp-block-surecart-product-template) { gap: 1.1rem 0.75rem !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
