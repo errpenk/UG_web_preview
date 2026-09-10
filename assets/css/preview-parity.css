@@ -182,6 +182,7 @@ a { color: inherit; }
 .preview-journal-grid h3 a { text-decoration: none; }
 
 .preview-article-hero { position: relative; min-height: clamp(520px, 56vw, 760px); display: flex; align-items: flex-end; overflow: hidden; background: var(--wp--preset--color--background); }
+.preview-article-hero::before { content: ""; position: absolute; z-index: 1; inset: 0; background: radial-gradient(ellipse at 24% 28%, rgb(255 255 255 / 28%), transparent 42%), radial-gradient(ellipse at 76% 54%, rgb(247 243 238 / 20%), transparent 48%); backdrop-filter: blur(10px) saturate(1.08); -webkit-backdrop-filter: blur(10px) saturate(1.08); opacity: .62; pointer-events: none; }
 .preview-article-hero::after { content: ""; position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, transparent 54%, rgb(247 244 238 / 22%) 64%, var(--wp--preset--color--background) 85%); }
 .preview-article-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 66%; -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, rgb(0 0 0 / 92%) 64%, transparent 84%); mask-image: linear-gradient(180deg, #000 0%, #000 55%, rgb(0 0 0 / 92%) 64%, transparent 84%); }
 .preview-article-hero > div { position: relative; z-index: 2; width: min(calc(100% - (2 * var(--ugolini-gutter))), 76rem); margin-inline: auto; padding-bottom: clamp(1.25rem, 2.5vw, 2.25rem); text-align: center; }
@@ -206,7 +207,7 @@ a { color: inherit; }
 .preview-related-card strong { font-family: var(--wp--preset--font-family--display); font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 400; text-transform: uppercase; }
 .preview-related-card small { color: var(--wp--preset--color--secondary-text); }
 
-.ugolini-footer-grid a { display: block; margin-bottom: 0.55rem; text-decoration: none; }
+.ugolini-footer-grid a { width: max-content; min-height: 32px; display: flex; align-items: center; margin-bottom: 0.55rem; text-decoration: none; }
 .ugolini-footer-grid a:hover { text-decoration: none; }
 .preview-footer-brand .preview-logo-image { width: 190px; margin-bottom: 1.5rem; filter: brightness(0); }
 .preview-footer-brand p { max-width: 26rem; color: var(--wp--preset--color--secondary-text); }
@@ -230,17 +231,18 @@ a { color: inherit; }
 .preview-gallery-thumbnails button[aria-current="true"] { border-color: var(--wp--preset--color--text); }
 .preview-gallery-thumbnails img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .preview-product-summary { position: sticky; top: calc(var(--ugolini-header-height) + 2rem); }
+.preview-product-summary > .ugolini-product-card-meta { display: none; }
 .preview-product-summary h1 { margin: 0.4rem 0 1rem; font-family: var(--wp--preset--font-family--display); font-size: clamp(2.2rem, 3vw, 3.25rem); font-weight: 400; letter-spacing: -0.035em; line-height: 1.05; }
 .preview-product-summary h1 { font-size: clamp(2.6rem, 4.4vw, 4.8rem); }
 .preview-product-summary > .preview-product-price { margin-block: 1.5rem; font-size: clamp(1.7rem, 2.4vw, 2.25rem); }
 .preview-surecart-panel { margin-block: 2rem; padding: 0; border: 0; background: transparent; }
-.preview-surecart-panel > p { color: var(--wp--preset--color--secondary-text); font-size: 0.78rem; }
-.preview-purchase-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+.preview-surecart-panel > p { margin: 0 0 1.5rem; color: var(--wp--preset--color--secondary-text); font-size: 0.78rem; }
+.preview-purchase-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 0.75rem; row-gap: 1.5rem; }
 .preview-purchase-row > button { min-height: 56px; padding-inline: 1.25rem; border: 0; border-radius: 0; background: var(--wp--preset--color--brand); color: #fff; font-weight: 700; text-transform: uppercase; }
 .preview-purchase-row > button:last-child { border: 1px solid var(--wp--preset--color--text); background: transparent; color: var(--wp--preset--color--text); }
 .preview-purchase-row > button:hover,
 .preview-purchase-row > button:focus-visible { border-color: var(--wp--preset--color--brand-dark); background: var(--wp--preset--color--brand-dark); color: #fff; }
-.preview-quantity-control { grid-column: 1 / -1; width: 128px; min-height: 56px; display: grid; grid-template-columns: repeat(3, 1fr); align-items: center; margin-block: 0.75rem; border: 1px solid var(--wp--preset--color--border); background: #fff; text-align: center; }
+.preview-quantity-control { grid-column: 1 / -1; width: 128px; min-height: 56px; display: grid; grid-template-columns: repeat(3, 1fr); align-items: center; margin: 0; border: 1px solid var(--wp--preset--color--border); background: #fff; text-align: center; }
 .preview-quantity-control button { min-height: 54px; padding: 0; border: 0; background: transparent; color: inherit; }
 .preview-product-facts { max-width: 920px; }
 .preview-product-facts .ugolini-product-fact { padding-block: 1.25rem; }
@@ -288,9 +290,9 @@ a { color: inherit; }
 	.preview-shop-actions label:has(input) { grid-column: 1 / -1; }
 	.preview-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 0.9rem; }
 	.preview-product-summary { position: static; }
-	.preview-product-gallery { position: static; display: grid; grid-template-columns: 1fr; padding-left: 0; }
+	.preview-product-gallery { position: static; display: grid; grid-template-columns: 1fr; gap: 0.5rem; padding-left: 0; }
 	.preview-gallery-stage { grid-column: 1; grid-row: 1; }
-	.preview-gallery-thumbnails { position: static; width: auto; height: auto; max-height: none; grid-column: 1; grid-row: 2; flex-direction: row; overflow-x: auto; transform: none; }
+	.preview-gallery-thumbnails { position: static; width: auto; height: auto; max-height: none; grid-column: 1; grid-row: 2; flex-direction: row; margin: 0; overflow-x: auto; transform: none; }
 	.preview-gallery-thumbnails button { width: 68px; }
 	.preview-quantity-control { width: 112px; }
 	.preview-article-hero { min-height: 520px; }

@@ -58,6 +58,7 @@
 	.ugolini-newsletter-inner { padding: 2rem 1.25rem; }
 	.ugolini-newsletter-inner h2 { font-size: 2.625rem; }
 	.ugolini-newsletter-form > div { grid-template-columns: 1fr; }
+	.ugolini-testimonials { height: auto; min-height: 560px; }
 	.ugolini-testimonials blockquote { flex-basis: 100%; }
 	.ugolini-testimonials blockquote > p { min-height: 0; }
 	.ugolini-timeline__track::before,
@@ -83,13 +84,13 @@
 	.ugolini-editorial-split--reverse .ugolini-editorial-copy { order: 2; }
 	.ugolini-editorial-media { min-height: 92vw; }
 	.ugolini-editorial-copy { padding: 3.5rem var(--wp--style--root--padding-right); }
-	.ugolini-campaign-split { min-height: 0; display: flex; aspect-ratio: 5 / 2; }
+	.ugolini-campaign-split { min-height: 560px; display: flex; aspect-ratio: auto; }
 	.ugolini-campaign-media { position: absolute; min-height: 0; }
-	.ugolini-campaign-copy { padding: 1.1rem 0; }
-	.ugolini-campaign-copy h2 { margin-bottom: .45rem; font-size: clamp(1.45rem, 7vw, 2.2rem); }
-	.ugolini-campaign-copy p:not(.ugolini-eyebrow) { max-width: 34rem; margin: 0; font-size: .72rem; line-height: 1.35; }
-	.ugolini-campaign-copy .wp-block-buttons { margin-top: .55rem; }
-	.ugolini-campaign-copy .wp-block-button__link { min-height: 38px; padding: .6rem 1rem; font-size: .68rem; }
+	.ugolini-campaign-copy { padding: 3rem var(--ugolini-gutter); }
+	.ugolini-campaign-copy h2 { margin-bottom: 1rem; font-size: clamp(2.4rem, 11vw, 4rem); }
+	.ugolini-campaign-copy p:not(.ugolini-eyebrow) { max-width: 34rem; margin: 0; font-size: 1rem; line-height: 1.5; }
+	.ugolini-campaign-copy .wp-block-buttons { margin-top: 1.5rem; }
+	.ugolini-campaign-copy .wp-block-button__link { min-height: 48px; padding: .75rem 1.25rem; font-size: .72rem; }
 	.ugolini-catalogue-panel.wp-block-cover { min-height: 480px; aspect-ratio: auto; }
 	.ugolini-quality-grid,
 	.ugolini-value-grid,
@@ -115,15 +116,17 @@
 	.ugolini-product-columns > .wp-block-column { width: 100% !important; max-width: 100%; flex: 0 0 auto !important; }
 	.ugolini-product-gallery { position: static; align-self: stretch; padding-left: 0; overflow: hidden; }
 	.ugolini-product-gallery :where(.sc-image-slider, .swiper) { width: 100% !important; max-width: 100%; }
-	.ugolini-product-gallery .sc-image-slider__thumbs { position: static; width: auto; height: auto; max-height: none; margin-top: 0.55rem !important; overflow: visible; transform: none; }
+	.ugolini-product-gallery .sc-image-slider__thumbs { position: static; width: auto; height: auto; max-height: none; margin-top: 0.5rem !important; overflow: visible; transform: none; }
+	.ugolini-product-gallery .sc-image-slider > .swiper { position: relative; }
+	.ugolini-product-gallery .sc-image-slider > .swiper > :where(.sc-image-slider-button__prev, .sc-image-slider-button__next) { position: absolute !important; top: 50% !important; bottom: auto !important; z-index: 3; transform: translateY(-50%) !important; }
 	.ugolini-product-gallery .sc-image-slider__thumbs .swiper { height: auto; overflow-x: auto; }
 	.ugolini-product-gallery .sc-image-slider__thumbs .swiper-wrapper { flex-direction: row; }
 	.ugolini-product-gallery .sc-image-slider__thumbs .swiper-wrapper,
 	.ugolini-product-gallery .sc-image-slider__thumbs .swiper-wrapper:has(.swiper-slide:nth-child(6)) { min-height: 0; justify-content: flex-start; }
 	.ugolini-product-gallery .sc-image-slider__thumbs .swiper-slide { width: 68px !important; height: 68px !important; flex-basis: 68px; }
 	.ugolini-product-summary { position: static; }
-	.ugolini-product-summary > .wp-block-surecart-product-quantity { width: 128px; height: auto; float: none; margin: 1.25rem 0 !important; }
-	.ugolini-product-summary > .wp-block-surecart-product-buy-buttons { width: 100%; height: auto; float: none; margin-top: 1.25rem !important; }
+	.ugolini-product-summary > .wp-block-surecart-product-quantity { width: 128px; height: auto; float: none; margin: 1.5rem 0 0 !important; }
+	.ugolini-product-summary > .wp-block-surecart-product-buy-buttons { width: 100%; height: auto; float: none; margin-top: 1.5rem !important; }
 	.ugolini-product-summary :where(.wp-block-surecart-product-title, h1) { font-size: clamp(2.35rem, 11vw, 3.6rem); }
 	.ugolini-product-gallery :where(.sc-product-media, .wp-block-surecart-product-media) { aspect-ratio: 3 / 2; }
 	.ugolini-search-dialog { padding: 5rem var(--ugolini-gutter) 1rem; }

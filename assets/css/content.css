@@ -31,6 +31,7 @@
 .ugolini-content-shell > .alignfull { max-width: none; }
 .ugolini-single-meta { color: var(--wp--preset--color--secondary-text); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }
 .ugolini-single-hero { position: relative; min-height: clamp(520px, 56vw, 760px); display: flex; align-items: flex-end; overflow: hidden; background: var(--wp--preset--color--background); }
+.ugolini-single-hero::before { content: ""; position: absolute; z-index: 1; inset: 0; background: radial-gradient(ellipse at 24% 28%, rgb(255 255 255 / 28%), transparent 42%), radial-gradient(ellipse at 76% 54%, rgb(247 243 238 / 20%), transparent 48%); backdrop-filter: blur(10px) saturate(1.08); -webkit-backdrop-filter: blur(10px) saturate(1.08); opacity: .62; pointer-events: none; }
 .ugolini-single-hero::after { content: ""; position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, transparent 54%, rgb(247 244 238 / 22%) 64%, var(--wp--preset--color--background) 85%); pointer-events: none; }
 .ugolini-single-hero > .wp-block-post-featured-image { position: absolute; inset: 0; margin: 0; }
 .ugolini-single-hero > .wp-block-post-featured-image img { width: 100%; height: 133.333%; object-fit: cover; object-position: center 66%; transform: translateY(-25%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, rgb(0 0 0 / 92%) 64%, transparent 84%); mask-image: linear-gradient(180deg, #000 0%, #000 55%, rgb(0 0 0 / 92%) 64%, transparent 84%); }

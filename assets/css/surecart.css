@@ -79,7 +79,6 @@
 .ugolini-product-gallery :where(button, [role="button"]):hover { border-color: var(--wp--preset--color--white); background: var(--wp--preset--color--white) !important; color: var(--wp--preset--color--text); }
 .ugolini-gallery-count { position: absolute; z-index: 3; right: 1rem; bottom: 1rem; padding: 0.25rem 0.45rem; color: var(--wp--preset--color--text); font-family: var(--wp--preset--font-family--interface); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; }
 .ugolini-product-summary { position: sticky; top: calc(var(--ugolini-header-height) + 2rem); }
-.ugolini-product-summary .wp-block-surecart-product-collection-tags { height: 17.6px !important; min-height: 17.6px !important; display: block !important; margin: 0 0 0.3rem !important; padding: 0; overflow: hidden; }
 .ugolini-product-summary :where(.wp-block-surecart-product-title, h1) { margin: 0.4rem 0 1rem; font-family: var(--wp--preset--font-family--display); font-size: clamp(2.6rem, 4.4vw, 4.8rem) !important; font-weight: 400; letter-spacing: -0.035em; line-height: 1.05; }
 .ugolini-product-summary :where(.wp-block-surecart-product-description, p) { max-width: 42rem; }
 .ugolini-product-price { margin-block: 1.5rem; font-size: clamp(1.7rem, 2.4vw, 2.25rem); font-weight: 650; }
@@ -106,8 +105,8 @@
 .ugolini-product-fact p { max-width: 68ch; margin: 1rem 0 0; color: var(--wp--preset--color--secondary-text); white-space: pre-line; }
 :where(.wp-block-surecart-product-buy-buttons) { width: 100%; }
 :where(.wp-block-surecart-product-buy-buttons) { display: flex !important; flex-wrap: nowrap !important; gap: 8px; }
-.ugolini-product-summary > .wp-block-surecart-product-quantity { width: 128px; margin: 1.5rem 0 !important; }
-.ugolini-product-summary > .wp-block-surecart-product-buy-buttons { width: 100%; height: auto; margin: 1rem 0 0 !important; }
+.ugolini-product-summary > .wp-block-surecart-product-quantity { width: 128px; margin: 1.5rem 0 0 !important; }
+.ugolini-product-summary > .wp-block-surecart-product-buy-buttons { width: 100%; height: auto; margin: 1.5rem 0 0 !important; }
 .ugolini-product-summary > .ugolini-product-assurances { clear: both; }
 :where(.wp-block-surecart-product-buy-buttons .wp-block-button, .wp-block-surecart-product-buy-buttons .wp-element-button) { flex: 1 1 12rem; }
 :where(.wp-block-surecart-product-buy-buttons .wp-element-button) { width: 100%; min-height: 54px; }

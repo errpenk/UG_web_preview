@@ -198,6 +198,11 @@ column, makes FAQ and product-detail imagery reveal in exact step with the
 section's sticky scroll, restores the quantity selector to the left between
 product copy and purchase buttons, and removes excess product-rail card height.
 
+V6.37 restores touch scrolling and complete mobile copy, normalizes B2B,
+catalogue, contact, footer and purchase spacing, adds the article-hero liquid
+blur treatment, and tightens the mobile product gallery while removing the
+collection strip above product titles.
+
 ## Source boundary
 
 Ugolini Gourmet supplies factual content and media. Urbani is used only as a

@@ -22,7 +22,7 @@
 .ugolini-range-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--wp--preset--color--border); }
 .ugolini-range-list > * { margin: 0; padding: 1.25rem 0; border-bottom: 1px solid var(--wp--preset--color--border); }
 .ugolini-catalogue-panel.wp-block-cover { position: relative; width: min(calc(100% - (2 * var(--ugolini-gutter))), var(--ugolini-container)) !important; max-width: var(--ugolini-container) !important; height: auto; min-height: 0; aspect-ratio: 16 / 9; overflow: hidden; margin-inline: auto !important; color: var(--wp--preset--color--white); }
-.ugolini-catalogue-panel > .wp-block-cover__inner-container { position: absolute; z-index: 1; inset: 0; display: flex; align-items: flex-end; }
+.ugolini-catalogue-panel > .wp-block-cover__inner-container { position: absolute; z-index: 1; inset: 0; display: flex; align-items: center; }
 .ugolini-catalogue-panel .wp-block-cover__image-background { object-position: center; transition: transform var(--ugolini-transition-slow); }
 .ugolini-catalogue-panel:hover .wp-block-cover__image-background { transform: scale(1.015); }
 .ugolini-catalogue-panel__copy { width: 100%; padding: clamp(3rem, 7vw, 6rem); }
@@ -31,12 +31,13 @@
 .ugolini-catalogue-panel .wp-block-button__link { border-color: #fff !important; background: transparent !important; color: #fff !important; }
 .ugolini-catalogue-panel .wp-block-button__link:hover,
 .ugolini-catalogue-panel .wp-block-button__link:focus-visible { background: #fff !important; color: var(--wp--preset--color--text) !important; }
-.ugolini-contact-list { margin: 0; padding: 0; list-style: none; }
-.ugolini-contact-list li { padding-block: 0.45rem; }
+.ugolini-contact-list { display: grid; gap: 1rem; margin: 0; padding: 0; list-style: none; }
+.ugolini-contact-list li { padding: 0; }
 .ugolini-contact-column { min-height: 100%; display: flex; flex-direction: column; align-items: flex-start; }
-.ugolini-contact-column :where(h2, h3) { margin-bottom: 1rem; }
-.ugolini-contact-column .ugolini-contact-list,
-.ugolini-contact-column > p { margin-top: 0; }
+.ugolini-contact-intro .ugolini-contact-column:first-child > .ugolini-eyebrow { display: none; }
+.ugolini-contact-column :where(h2, h3, p, ul, figure) { margin-block: 0 !important; }
+.ugolini-contact-column :where(h2, h3) { margin-bottom: 1.5rem !important; }
+.ugolini-contact-commercial > p { margin-bottom: 1.5rem !important; }
 .ugolini-contact-column > .wp-block-buttons,
 .ugolini-contact-commercial__image { margin-top: auto; }
 .ugolini-contact-commercial__image { width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
@@ -102,6 +103,7 @@
 .ugolini-wholesale-benefits span { color: var(--wp--preset--color--secondary-text); }
 .ugolini-wholesale-services { padding-block: clamp(4rem, 8vw, 8rem); background: #171714; color: #fff; }
 .ugolini-wholesale-services__heading { margin-bottom: clamp(2.5rem, 5vw, 5rem); }
+.ugolini-wholesale-services__heading > * { margin-inline: 0 !important; }
 .ugolini-wholesale-services__heading h2 { max-width: 12ch; color: inherit; font-size: clamp(3rem, 5.5vw, 5.5rem); }
 .ugolini-wholesale-services__list { border-top: 1px solid rgb(255 255 255 / 28%); }
 .ugolini-wholesale-services__list details { margin: 0; border-bottom: 1px solid rgb(255 255 255 / 28%); }
@@ -170,6 +172,8 @@
 .ugolini-b2b-form button { min-height: 68px; border: 1px solid #000; background: #000; color: #fff; cursor: pointer; font: 700 .78rem/1 var(--wp--preset--font-family--interface); letter-spacing: .12em; text-transform: uppercase; }
 .ugolini-b2b-form button:hover { background: transparent; color: #000; }
 .ugolini-b2b-form small { color: var(--wp--preset--color--secondary-text); text-align: center; }
+.ugolini-b2b-hero .ugolini-page-hero-content { display: flex; flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+.ugolini-b2b-hero .ugolini-page-hero-content > * { margin: 0 !important; }
 
 .ugolini-product-information > .alignwide { align-items: start; }
 .ugolini-product-information .alignwide > .ugolini-eyebrow { position: sticky; top: calc(var(--ugolini-header-height) + 2.75rem); margin: 0; padding-top: 0.12em; font-family: var(--wp--preset--font-family--display); font-size: clamp(2.6rem, 4.4vw, 4.8rem); font-weight: 400; letter-spacing: -0.035em; line-height: 1; text-transform: none; }
