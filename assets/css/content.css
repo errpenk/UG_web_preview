@@ -1,13 +1,13 @@
 /* Blog, recipe, archive, search and standard editorial templates. */
 .ugolini-journal-grid.wp-block-post-template { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 3rem); }
-.ugolini-journal-grid.wp-block-post-template > .wp-block-post { min-width: 0; display: flex; flex-direction: column; }
+.ugolini-journal-grid.wp-block-post-template > .wp-block-post { min-width: 0; display: flex; flex-direction: column; align-self: start; margin-block-start: 0 !important; }
 .preview-journal-grid > .ugolini-article-card { min-width: 0; display: flex; flex-direction: column; }
-.ugolini-journal-grid .wp-block-post-featured-image { margin-bottom: 1.5rem; background: var(--wp--preset--color--beige); }
+.ugolini-journal-grid .wp-block-post-featured-image { margin: 0 0 1.5rem !important; background: var(--wp--preset--color--beige); }
 .ugolini-journal-grid .wp-block-post-featured-image img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 .ugolini-journal-grid .wp-block-post-terms,
 .preview-journal-grid .ugolini-card-meta { margin: 1.4rem 0 0; color: var(--wp--preset--color--brand); font-family: var(--wp--preset--font-family--display); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
 .ugolini-journal-grid .wp-block-post-title,
-.preview-journal-grid h3 { min-height: 3.36em; display: -webkit-box; margin-block: 0.75rem 1.25rem; overflow: hidden; color: #615955; font-size: clamp(1.55rem, 2.1vw, 2.25rem); line-height: 1.12; text-transform: uppercase; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.preview-journal-grid h3 { min-height: 3.36em !important; height: 3.36em !important; display: -webkit-box !important; margin-block: 0.75rem 1.25rem; overflow: hidden !important; color: #615955; font-size: clamp(1.55rem, 2.1vw, 2.25rem); line-height: 1.12; text-transform: uppercase; -webkit-box-orient: vertical; -webkit-line-clamp: 3 !important; }
 .ugolini-journal-grid .wp-block-post-title a { text-decoration: none; }
 .ugolini-journal-grid .wp-block-post-title a:hover { text-decoration: none; }
 .ugolini-journal-byline { display: flex; gap: 0.55rem; margin: 0 0 1.25rem; color: #756c66; font-family: var(--wp--preset--font-family--display); font-size: 0.92rem; }
@@ -18,6 +18,8 @@
 .ugolini-journal-grid .wp-block-post-excerpt { flex: 1; display: flex; flex-direction: column; }
 .ugolini-journal-grid .wp-block-post-excerpt__excerpt,
 .preview-journal-grid .ugolini-card-excerpt { min-height: 4.8em !important; height: 4.8em !important; display: -webkit-box !important; overflow: hidden !important; white-space: normal !important; text-overflow: clip !important; -webkit-box-orient: vertical !important; -webkit-line-clamp: 3 !important; }
+.ugolini-journal-grid > .wp-block-post:first-child .wp-block-post-excerpt__excerpt,
+.preview-journal-grid > .ugolini-article-card:first-child .ugolini-card-excerpt { -webkit-line-clamp: 2 !important; }
 .ugolini-journal-grid .wp-block-post-excerpt__more-text,
 .preview-journal-grid .ugolini-card-link { margin-top: auto; }
 .ugolini-journal-grid .wp-block-post-excerpt__more-link,
@@ -31,10 +33,10 @@
 .ugolini-content-shell > .alignfull { max-width: none; }
 .ugolini-single-meta { color: var(--wp--preset--color--secondary-text); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }
 .ugolini-single-hero { position: relative; min-height: clamp(520px, 56vw, 760px); display: flex; align-items: flex-end; overflow: hidden; background: var(--wp--preset--color--background); }
-.ugolini-single-hero::before { content: ""; position: absolute; z-index: 1; inset: 0; background: radial-gradient(ellipse at 24% 28%, rgb(255 255 255 / 28%), transparent 42%), radial-gradient(ellipse at 76% 54%, rgb(247 243 238 / 20%), transparent 48%); backdrop-filter: blur(10px) saturate(1.08); -webkit-backdrop-filter: blur(10px) saturate(1.08); opacity: .62; pointer-events: none; }
-.ugolini-single-hero::after { content: ""; position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, transparent 54%, rgb(247 244 238 / 22%) 64%, var(--wp--preset--color--background) 85%); pointer-events: none; }
+.ugolini-single-hero::before { content: none; }
+.ugolini-single-hero::after { content: ""; position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, transparent 0 33.333%, rgb(247 243 238 / 82%) 58%, var(--wp--preset--color--background) 88%); pointer-events: none; }
 .ugolini-single-hero > .wp-block-post-featured-image { position: absolute; inset: 0; margin: 0; }
-.ugolini-single-hero > .wp-block-post-featured-image img { width: 100%; height: 133.333%; object-fit: cover; object-position: center 66%; transform: translateY(-25%); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, rgb(0 0 0 / 92%) 64%, transparent 84%); mask-image: linear-gradient(180deg, #000 0%, #000 55%, rgb(0 0 0 / 92%) 64%, transparent 84%); }
+.ugolini-single-hero > .wp-block-post-featured-image img { width: 100%; height: 133.333%; object-fit: cover; object-position: center 66%; transform: translateY(-25%); }
 .ugolini-single-hero__copy { position: relative; z-index: 2; width: min(calc(100% - (2 * var(--ugolini-gutter))), 76rem) !important; max-width: 76rem !important; margin: 0 auto !important; padding: 0 0 clamp(1.25rem, 2.5vw, 2.25rem); text-align: center; }
 .ugolini-single-hero__copy h1 { max-width: 18ch; margin: 0.65rem auto 0.9rem; font-size: clamp(3rem, 5.7vw, 6rem); line-height: 1.02; }
 .ugolini-single-hero__copy > .wp-block-post-terms { width: max-content; margin-inline: auto; color: var(--wp--preset--color--text); font-size: 0.72rem; }

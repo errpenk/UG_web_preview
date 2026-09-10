@@ -153,7 +153,7 @@ for (const gallery of document.querySelectorAll('.ugolini-product-gallery .sc-im
 	const count = document.createElement('span');
 	count.className = 'ugolini-gallery-count';
 	count.setAttribute('aria-live', 'polite');
-	gallery.append(count);
+	stage.append(count);
 	const update = () => {
 		const slides = [...stage.querySelectorAll(':scope > .swiper-wrapper > .swiper-slide')].filter(slide => getComputedStyle(slide).display !== 'none');
 		const active = Math.max(0, slides.findIndex(slide => slide.classList.contains('swiper-slide-active')));

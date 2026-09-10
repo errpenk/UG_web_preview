@@ -203,6 +203,11 @@ catalogue, contact, footer and purchase spacing, adds the article-hero liquid
 blur treatment, and tightens the mobile product gallery while removing the
 collection strip above product titles.
 
+V6.38 replaces the article blur with a white lower-two-thirds mask, locks Blog
+cards to a shared top edge, restores the black Ugolini wordmark in the footer,
+centres the mobile header, and fixes the live SureCart gallery and compact
+contact layout through tablet widths.
+
 ## Source boundary
 
 Ugolini Gourmet supplies factual content and media. Urbani is used only as a

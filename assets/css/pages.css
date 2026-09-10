@@ -35,6 +35,7 @@
 .ugolini-contact-list li { padding: 0; }
 .ugolini-contact-column { min-height: 100%; display: flex; flex-direction: column; align-items: flex-start; }
 .ugolini-contact-intro .ugolini-contact-column:first-child > .ugolini-eyebrow { display: none; }
+.ugolini-contact-column :where(h2, h3) { font-size: clamp(3rem, 5vw, 5rem); line-height: 1.02; }
 .ugolini-contact-column :where(h2, h3, p, ul, figure) { margin-block: 0 !important; }
 .ugolini-contact-column :where(h2, h3) { margin-bottom: 1.5rem !important; }
 .ugolini-contact-commercial > p { margin-bottom: 1.5rem !important; }
