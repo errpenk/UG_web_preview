@@ -201,13 +201,13 @@ for (const timeline of document.querySelectorAll('[data-timeline]')) {
 }
 
 (() => {
-	const panes = [...document.querySelectorAll('.ugolini-faq-section > :first-child, .ugolini-product-information .alignwide > .ugolini-eyebrow')];
+	const panes = [...document.querySelectorAll('.ugolini-faq-section > :first-child, .ugolini-product-information .alignwide > .ugolini-eyebrow, .ugolini-product-guide__visual')];
 	if (!panes.length) return;
 	let frame;
 	const update = () => {
 		frame = 0;
 		for (const pane of panes) {
-			const peer = pane.nextElementSibling;
+			const peer = pane.classList.contains('ugolini-product-guide__visual') ? pane.previousElementSibling : pane.nextElementSibling;
 			const section = pane.parentElement;
 			if (!peer || !section) continue;
 			const children = [...pane.children];

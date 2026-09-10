@@ -208,6 +208,11 @@ cards to a shared top edge, restores the black Ugolini wordmark in the footer,
 centres the mobile header, and fixes the live SureCart gallery and compact
 contact layout through tablet widths.
 
+V6.39 rebuilds Contact as a centered vertical flow with Lucide contact cues,
+removes the commercial image and mobile drawer tail rule, renames Scopri to Chi
+siamo, expands the supplied company story, and adds a collection-aware tasting
+guide with four accessible accordions to every product page.
+
 ## Source boundary
 
 Ugolini Gourmet supplies factual content and media. Urbani is used only as a

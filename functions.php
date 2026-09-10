@@ -55,7 +55,7 @@ function ugolini_group_page_pattern_content( $file ) {
  * WordPress revisions retain the replaced page bodies for recovery.
  */
 function ugolini_group_seed_preview_pages() {
-	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_pages_625_seeded' ) ) {
+	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_pages_639_seeded' ) ) {
 		return;
 	}
 
@@ -177,7 +177,7 @@ function ugolini_group_seed_preview_pages() {
 		flush_rewrite_rules( false );
 	}
 	if ( $complete ) {
-		update_option( 'ugolini_group_pages_625_seeded', 1, false );
+		update_option( 'ugolini_group_pages_639_seeded', 1, false );
 	}
 }
 add_action( 'init', 'ugolini_group_seed_preview_pages', 99 );
@@ -606,6 +606,7 @@ function ugolini_group_expand_legacy_shortcodes( $content ) {
 		'[ugolini_collection_tabs]'      => 'ugolini_group_collection_tabs_shortcode',
 		'[ugolini_collection_editorial]' => 'ugolini_group_collection_editorial_shortcode',
 		'[ugolini_product_story]'        => 'ugolini_group_product_story_shortcode',
+		'[ugolini_product_guide]'        => 'ugolini_group_product_guide_shortcode',
 		'[ugolini_cooking_suggestions]'  => 'ugolini_group_cooking_suggestions_shortcode',
 	);
 	foreach ( $shortcodes as $token => $callback ) {
@@ -899,6 +900,14 @@ function ugolini_group_icon( $name, $label = '' ) {
 		'arrow-up'      => '<path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>',
 		'x'             => '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
 		'sliders-horizontal' => '<line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/>',
+		'mail'           => '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+		'phone'          => '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.69 2.8a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.33 1.84.56 2.8.69A2 2 0 0 1 22 16.92z"/>',
+		'map-pin'        => '<path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+		'message-circle' => '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3 1.7-5.1A7 7 0 0 1 3 12V8a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/>',
+		'utensils'       => '<path d="M3 2v7c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
+		'sparkles'       => '<path d="m12 3-1.9 5.1L5 10l5.1 1.9L12 17l1.9-5.1L19 10l-5.1-1.9Z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/>',
+		'book-open'      => '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V5a2 2 0 0 1 2-2h5a3 3 0 0 1 3 3v15a3 3 0 0 0-3-3Z"/><path d="M21 18a1 1 0 0 0 1-1V5a2 2 0 0 0-2-2h-5a3 3 0 0 0-3 3v15a3 3 0 0 1 3-3Z"/>',
+		'tag'            => '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42Z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>',
 	);
 	if ( ! isset( $icons[ $name ] ) ) return '';
 	return '<svg class="lucide lucide-' . esc_attr( $name ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"' . ( $label ? ' role="img" aria-label="' . esc_attr( $label ) . '"' : ' aria-hidden="true"' ) . '>' . $icons[ $name ] . '</svg>';
@@ -924,6 +933,60 @@ function ugolini_group_product_story_shortcode() {
 	return '<section class="ugolini-product-story"><img src="' . esc_url( $image ) . '" alt=""><div><p class="ugolini-eyebrow">Continua a scoprire</p><h2>' . esc_html( $content[0] ) . '</h2><p>' . esc_html( $content[1] ) . '</p><a href="' . esc_url( $link ) . '#ugolini-products">Vai alla collezione</a></div></section>';
 }
 add_shortcode( 'ugolini_product_story', 'ugolini_group_product_story_shortcode' );
+
+/** Series-specific tasting and use guide. Product labels remain the authority. */
+function ugolini_group_product_guide_shortcode() {
+	$terms = is_singular() ? wp_get_post_terms( get_the_ID(), 'sc_collection' ) : array();
+	$term  = is_array( $terms ) ? ( $terms[0] ?? null ) : null;
+	$slug  = $term instanceof WP_Term ? $term->slug : 'salse-tartufo';
+	$guides = array(
+		'pesto' => array(
+			array( 'utensils', 'Come servirlo', 'Usalo per condire la pasta oppure come finitura per bruschette, focacce e preparazioni creative. Aggiungilo fuori dal fuoco o a calore moderato per conservarne il profilo aromatico.' ),
+			array( 'sparkles', 'Equilibrio nel piatto', 'Allungalo, se necessario, con poca acqua di cottura della pasta: aiuta a distribuire il condimento senza coprirne il gusto.' ),
+			array( 'book-open', 'Tradizione ligure', 'Il pesto è tradizionalmente associato alla pasta e al minestrone genovese; ogni referenza Ugolini mantiene però ingredienti e caratteristiche proprie.' ),
+			array( 'tag', 'Prima dell’uso', 'Controlla sempre in etichetta ingredienti, allergeni, quantità e indicazioni di conservazione della specifica referenza.' ),
+		),
+		'sughi' => array(
+			array( 'utensils', 'Come servirli', 'Scalda dolcemente e abbina a pasta, gnocchi o cereali; le referenze più dense possono accompagnare anche crostini e piatti conviviali.' ),
+			array( 'sparkles', 'Regolare la consistenza', 'Per la pasta, completa la preparazione in padella con poca acqua di cottura, così il sugo si lega in modo uniforme.' ),
+			array( 'book-open', 'Una gamma italiana', 'La collezione comprende ricette riconoscibili, dal ragù alla Bolognese alle proposte vegane e piccanti, costruite intorno al pomodoro italiano.' ),
+			array( 'tag', 'Prima dell’uso', 'Segui le condizioni di impiego e conservazione riportate sulla confezione; dopo l’apertura fa sempre fede l’etichetta del prodotto.' ),
+		),
+		'marmellate' => array(
+			array( 'utensils', 'Abbinamenti salati', 'Servi in piccole quantità con formaggi, salumi o carni: la componente agrodolce crea contrasto senza sostituire il sapore principale.' ),
+			array( 'sparkles', 'Costruire l’assaggio', 'Parti da una dose contenuta e aumenta gradualmente. Su un tagliere, prova prima il prodotto da solo e poi insieme all’accompagnamento.' ),
+			array( 'book-open', 'Non solo colazione', 'Queste sono marmellate gastronomiche: la collezione è pensata anche per aperitivi, taglieri e cucina salata.' ),
+			array( 'tag', 'Prima dell’uso', 'Verifica in etichetta ingredienti, allergeni e conservazione; usa sempre un utensile pulito per prelevare il prodotto.' ),
+		),
+		'olio-al-tartufo' => array(
+			array( 'utensils', 'Usalo a finitura', 'Versane poche gocce sul piatto pronto: pasta, risotti, uova, patate e verdure accolgono bene una finitura aromatica.' ),
+			array( 'sparkles', 'Dosaggio progressivo', 'Il profumo è protagonista: aggiungi il condimento poco alla volta e assaggia, per non coprire gli altri ingredienti.' ),
+			array( 'book-open', 'Bianco e nero', 'Le referenze al tartufo bianco e nero hanno profili distinti. Scegli la bottiglia in base alla ricetta e alle informazioni riportate nella scheda.' ),
+			array( 'tag', 'Luce e conservazione', 'Conserva secondo etichetta; per gli oli è buona pratica evitare luce e fonti di calore, che ne accelerano l’alterazione.' ),
+		),
+		'salse-funghi' => array(
+			array( 'utensils', 'Come servirle', 'Scalda dolcemente e usa con pasta, risotti, polenta, carni o crostini. Le creme possono anche completare ripieni e fondi.' ),
+			array( 'sparkles', 'Valorizzare la consistenza', 'Per un risultato più fluido, incorpora poco liquido caldo; per un crostino, mantieni invece la crema più compatta.' ),
+			array( 'book-open', 'Porcini e champignon', 'La collezione riunisce creme a base di funghi con caratteri differenti: consulta nome e ingredienti della referenza prima dell’abbinamento.' ),
+			array( 'tag', 'Prima dell’uso', 'Leggi sempre allergeni e modalità di conservazione in etichetta, soprattutto dopo l’apertura.' ),
+		),
+		'salse-tartufo' => array(
+			array( 'utensils', 'Come servirle', 'Usa la salsa con pasta, risotti, uova, patate, carni o crostini. Un riscaldamento delicato evita di appiattire la componente aromatica.' ),
+			array( 'sparkles', 'Dosare il tartufo', 'Inizia con una piccola quantità e completa dopo l’assaggio: il condimento deve sostenere, non coprire, la preparazione.' ),
+			array( 'book-open', 'Salse e creme', 'La gamma comprende consistenze e ricette diverse; ingredienti, percentuali e certificazioni vanno verificati sulla singola scheda prodotto.' ),
+			array( 'tag', 'Prima dell’uso', 'Rispetta le istruzioni riportate in etichetta per apertura, conservazione e durata; sono specifiche per ciascuna referenza.' ),
+		),
+	);
+	$items = $guides[ $slug ] ?? $guides['salse-tartufo'];
+	$html  = '';
+	foreach ( $items as $item ) {
+		$html .= '<details class="ugolini-product-guide__item"><summary><span>' . ugolini_group_icon( $item[0] ) . esc_html( $item[1] ) . '</span></summary><p>' . esc_html( $item[2] ) . '</p></details>';
+	}
+	$image = $term instanceof WP_Term ? ugolini_group_collection_image( $term ) : '';
+	$style = $image ? ' style="--ugolini-sticky-image:url(\'' . esc_url( $image ) . '\')"' : '';
+	return '<section class="ugolini-product-guide"><div class="alignwide"><div class="ugolini-product-guide__list">' . $html . '</div><div class="ugolini-product-guide__visual"' . $style . '><span>Guida alla collezione</span><h2>Assaggia, abbina, conosci</h2><p>Indicazioni pratiche per valorizzare questa famiglia di prodotti.</p></div></div></section>';
+}
+add_shortcode( 'ugolini_product_guide', 'ugolini_group_product_guide_shortcode' );
 
 function ugolini_group_cooking_suggestions_shortcode() {
 	$cards = array(
