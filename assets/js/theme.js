@@ -15,6 +15,26 @@
 	}
 })();
 
+(() => {
+	for (const deck of document.querySelectorAll('[data-event-deck]')) {
+		const slides = [...deck.querySelectorAll('[data-event-slide]')];
+		const thumbs = [...deck.querySelectorAll('[data-event-go]')];
+		const output = deck.querySelector('output');
+		if (!slides.length) continue;
+		let active = Math.max(0, slides.findIndex(slide => `#${slide.id}` === location.hash));
+		const show = index => {
+			active = (index + slides.length) % slides.length;
+			slides.forEach((slide, itemIndex) => slide.hidden = itemIndex !== active);
+			thumbs.forEach((thumb, itemIndex) => thumb.setAttribute('aria-current', itemIndex === active ? 'true' : 'false'));
+			if (output) output.value = `${active + 1} / ${slides.length}`;
+		};
+		thumbs.forEach((thumb, index) => thumb.addEventListener('click', () => show(index)));
+		deck.querySelector('[data-event-prev]')?.addEventListener('click', () => show(active - 1));
+		deck.querySelector('[data-event-next]')?.addEventListener('click', () => show(active + 1));
+		show(active);
+	}
+})();
+
 for (const deal of document.querySelectorAll('[data-deal-rail]')) {
 	const rail = deal.querySelector('.ugolini-product-template, .preview-product-grid');
 	if (!rail) continue;
@@ -176,6 +196,173 @@ for (const testimonials of document.querySelectorAll('[data-testimonials]')) {
 	testimonials.querySelector('[data-testimonials-next]')?.addEventListener('click', () => move(1));
 }
 
+for (const copy of document.querySelectorAll('.ugolini-catalogue-panel__copy')) {
+	if (copy.querySelector('.ugolini-editorial-left')) continue;
+	const left = document.createElement('div');
+	const right = document.createElement('div');
+	left.className = 'ugolini-editorial-left';
+	right.className = 'ugolini-editorial-right';
+	for (const child of [...copy.children]) (child.matches('.ugolini-eyebrow, h2, h3') ? left : right).append(child);
+	const firstParagraph = right.querySelector(':scope > p');
+	if (firstParagraph) {
+		const detail = document.createElement('p');
+		detail.textContent = 'La selezione comprende specialità italiane per la tavola e per i professionisti. Consulta ogni scheda per ingredienti, formati, modalità d’uso e certificazioni disponibili, oppure contatta il team Ugolini per una richiesta commerciale dedicata.';
+		firstParagraph.after(detail);
+	}
+	copy.append(left, right);
+}
+
+for (const story of document.querySelectorAll('[data-service-story]')) {
+	const slides = [...story.querySelectorAll('.ugolini-wholesale-services__slides article')];
+	const markers = [...story.querySelectorAll('.ugolini-wholesale-services__axis span')];
+	const images = [...story.querySelectorAll('.ugolini-wholesale-services__media img')];
+	let active = -1;
+	const update = () => {
+		const rect = story.getBoundingClientRect();
+		const progress = Math.max(0, Math.min(1, -rect.top / Math.max(1, rect.height - innerHeight)));
+		const next = Math.min(slides.length - 1, Math.round(progress * (slides.length - 1)));
+		if (next === active) return;
+		active = next;
+		slides.forEach((slide, index) => { slide.classList.toggle('is-active', index === active); slide.setAttribute('aria-hidden', String(index !== active)); });
+		markers.forEach((marker, index) => marker.classList.toggle('is-active', index === active));
+		images.forEach((image, index) => image.classList.toggle('is-active', index === active));
+	};
+	addEventListener('scroll', update, { passive: true });
+	addEventListener('resize', update, { passive: true });
+	update();
+}
+
+const ugoliniCurrentPath = location.pathname.replace(/\/(?:index\.html)?$/, '') || '/';
+const ugoliniClosePageSubmenus = except => {
+	for (const submenu of document.querySelectorAll('.ugolini-page-submenu.is-open')) {
+		if (submenu === except) continue;
+		submenu.classList.remove('is-open');
+		submenu.previousElementSibling?.setAttribute('aria-expanded', 'false');
+	}
+};
+const ugoliniShopMenu = document.querySelector('.ugolini-mega-menu');
+let ugoliniCloseShopMenu = () => {};
+if (ugoliniShopMenu) {
+	let closeTimer;
+	const open = () => {
+		clearTimeout(closeTimer);
+		if (innerWidth < 768) return;
+		ugoliniClosePageSubmenus();
+		ugoliniShopMenu.open = true;
+		requestAnimationFrame(() => ugoliniShopMenu.classList.add('is-panel-visible'));
+	};
+	const close = () => {
+		ugoliniShopMenu.classList.remove('is-panel-visible');
+		closeTimer = setTimeout(() => { if (innerWidth >= 768 && !ugoliniShopMenu.classList.contains('is-panel-visible')) ugoliniShopMenu.open = false; }, 220);
+	};
+	ugoliniCloseShopMenu = close;
+	if (/\/(?:shop|prodotto)(?:\/|$)/.test(ugoliniCurrentPath)) ugoliniShopMenu.classList.add('is-current');
+	ugoliniShopMenu.addEventListener('mouseenter', open);
+	ugoliniShopMenu.addEventListener('focusin', open);
+	ugoliniShopMenu.addEventListener('focusout', () => requestAnimationFrame(() => { if (!ugoliniShopMenu.contains(document.activeElement)) ugoliniShopMenu.open = false; }));
+}
+
+for (const nav of document.querySelectorAll('.ugolini-primary-navigation')) {
+	const list = nav.querySelector('.wp-block-navigation__container, ul');
+	const links = list ? [...list.querySelectorAll(':scope > li > a, :scope > li > .wp-block-navigation-item__content')] : [];
+	if (!list || !links.length) continue;
+	let current = links.find(link => { const path = new URL(link.href, location.href).pathname.replace(/\/(?:index\.html)?$/, '') || '/'; return path === ugoliniCurrentPath; });
+	if (!current && document.body.classList.contains('single-post')) current = links.find(link => link.textContent.trim() === 'Blog');
+	current?.classList.add('is-current');
+	const indicator = document.createElement('span');
+	indicator.className = 'ugolini-nav-indicator';
+	list.append(indicator);
+	const storageKey = 'ugolini-nav-from';
+	let previous = '';
+	try { previous = sessionStorage.getItem(storageKey) || ''; sessionStorage.removeItem(storageKey); } catch (error) {}
+	const pointTo = (link, moving = false) => {
+		if (!link || innerWidth < 768) { indicator.style.opacity = '0'; return; }
+		indicator.classList.toggle('is-moving', moving);
+		indicator.style.opacity = '1'; indicator.style.width = `${link.offsetWidth}px`; indicator.style.transform = `translateX(${link.offsetLeft}px)`;
+	};
+	links.forEach(link => link.addEventListener('click', () => {
+		if (!current) return;
+		try { sessionStorage.setItem(storageKey, current.textContent.trim()); } catch (error) {}
+	}));
+	addEventListener('resize', () => pointTo(current), { passive: true });
+	const previousLink = previous && links.find(link => link.textContent.trim() === previous);
+	if (previousLink && current && previousLink !== current) {
+		pointTo(previousLink);
+		requestAnimationFrame(() => requestAnimationFrame(() => pointTo(current, true)));
+	} else pointTo(current);
+}
+
+const ugoliniNormalizePath = value => {
+	const path = new URL(value, location.href).pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '');
+	return path || '/';
+};
+const ugoliniPagePath = ugoliniNormalizePath(location.href);
+const ugoliniPageMenus = {
+	'Home': ['copri i prodotti', 'Sapori per ogni tavola', 'Perché scegliere Ugolini', 'Tradizione, esperienza e innovazione'],
+	'Shop': ['Sapori per ogni tavola', 'Tutta la gamma Ugolini Gourmet'],
+	'Chi siamo': ['Le radici di una passione italiana', 'Tradizione, esperienza e innovazione', 'Perché scegliere Ugolini', 'Scopri le specialità nate dalla passione Ugolini'],
+	'Event': ['Prossimi eventi', 'Eventi passati'],
+	'B2B': ['Sei uno chef, ristoratore o distributore?', 'Dalla selezione al riordino', 'Una gamma per ogni servizio', 'Un rapporto costruito sulla tua attività'],
+	'FAQ': ['Ugolini Gourmet', 'Scelta e utilizzo', 'Acquisto e assistenza', 'Area clienti'],
+};
+const ugoliniSectionTargets = new Map();
+const ugoliniSlug = value => `sezione-${value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`;
+const ugoliniHeadings = [...document.querySelectorAll('main :is(h1, h2, h3)')];
+
+for (const nav of document.querySelectorAll('.ugolini-primary-navigation')) {
+	const list = nav.querySelector('.wp-block-navigation__container, ul');
+	const links = list ? [...list.querySelectorAll(':scope > li > a, :scope > li > .wp-block-navigation-item__content')] : [];
+	for (const link of links) {
+		const path = ugoliniNormalizePath(link.href);
+		const labels = ugoliniPageMenus[link.textContent.trim()];
+		const item = link.closest('li');
+		if (!labels || !item || item.querySelector('.ugolini-page-submenu')) {
+			if (item && !labels) item.addEventListener('mouseenter', () => {
+				if (innerWidth < 768) return;
+				ugoliniClosePageSubmenus();
+				ugoliniCloseShopMenu();
+			});
+			continue;
+		}
+		item.classList.add('ugolini-has-page-submenu');
+		const toggle = document.createElement('button');
+		toggle.className = 'ugolini-submenu-toggle';
+		toggle.type = 'button';
+		toggle.setAttribute('aria-label', `Apri le sezioni di ${link.textContent.trim()}`);
+		toggle.setAttribute('aria-expanded', 'false');
+		const submenu = document.createElement('ul');
+		submenu.className = 'ugolini-page-submenu';
+		for (const label of labels) {
+			const id = ugoliniSlug(label);
+			const target = path === ugoliniPagePath ? ugoliniHeadings.find(heading => heading.textContent.trim() === label) : null;
+			if (target) {
+				target.id ||= id;
+				ugoliniSectionTargets.set(target, label);
+			}
+			const row = document.createElement('li');
+			const anchor = document.createElement('a');
+			anchor.href = target ? `#${target.id}` : `${link.getAttribute('href').split('#')[0]}#${id}`;
+			anchor.textContent = label;
+			row.append(anchor);
+			submenu.append(row);
+		}
+		toggle.addEventListener('click', () => {
+			const open = !submenu.classList.contains('is-open');
+			for (const sibling of list.querySelectorAll('.ugolini-page-submenu.is-open')) sibling.classList.remove('is-open');
+			for (const button of list.querySelectorAll('.ugolini-submenu-toggle[aria-expanded="true"]')) button.setAttribute('aria-expanded', 'false');
+			submenu.classList.toggle('is-open', open);
+			toggle.setAttribute('aria-expanded', String(open));
+		});
+		item.addEventListener('mouseenter', () => {
+			if (innerWidth < 768) return;
+			ugoliniCloseShopMenu();
+			ugoliniClosePageSubmenus(submenu);
+			submenu.classList.add('is-open');
+		});
+		item.append(toggle, submenu);
+	}
+}
+
 (() => {
 	const button = document.createElement('button');
 	button.className = 'ugolini-scroll-top';
@@ -187,6 +374,186 @@ for (const testimonials of document.querySelectorAll('[data-testimonials]')) {
 	document.body.append(button);
 	addEventListener('scroll', update, { passive: true });
 	update();
+})();
+
+(() => {
+	const presets = [
+		['.ugolini-hero', ['https://ugolinigroup.com/wp-content/uploads/2026/08/8800-pesto-alla-genovese-ugolini-gourmet-10.jpg', 'https://ugolinigroup.com/wp-content/uploads/2026/08/8848-sugo-allarrabbiata-ugolini-gourmet-5.jpg']],
+		['.ugolini-catalogue-panel', ['https://ugolinigroup.com/wp-content/uploads/2026/08/8817-pesto-rosso-ugolini-gourmet-4.jpg', 'https://ugolinigroup.com/wp-content/uploads/2026/08/8855-pesto-vegano-ugolini-gourmet-8-scaled-1.jpg']],
+	];
+	for (const [selector, urls] of presets) for (const carousel of document.querySelectorAll(selector)) {
+		if (carousel.dataset.carouselReady) continue;
+		const first = carousel.querySelector('.wp-block-cover__image-background');
+		if (!first) continue;
+		carousel.classList.add('ugolini-carousel');
+		first.classList.add('ugolini-carousel__slide', 'is-active');
+		for (const url of urls) {
+			const slide = first.cloneNode();
+			slide.src = url;
+			slide.removeAttribute('srcset');
+			slide.classList.remove('is-active');
+			carousel.insertBefore(slide, carousel.querySelector('.wp-block-cover__inner-container'));
+		}
+	}
+
+	for (const gallery of document.querySelectorAll('.ugolini-home-story__gallery')) {
+		gallery.classList.add('ugolini-carousel');
+		for (const [index, image] of [...gallery.querySelectorAll('img')].entries()) image.classList.add('ugolini-carousel__slide', ...(index ? [] : ['is-active']));
+	}
+
+	for (const carousel of document.querySelectorAll('.ugolini-carousel, [data-carousel]')) {
+		if (carousel.dataset.carouselReady) continue;
+		const slides = [...carousel.querySelectorAll(':scope > .ugolini-carousel__slide, :scope > figure > .ugolini-carousel__slide')];
+		if (slides.length < 2) continue;
+		carousel.dataset.carouselReady = 'true';
+		let active = Math.max(0, slides.findIndex(slide => slide.classList.contains('is-active')));
+		const nav = document.createElement('div');
+		nav.className = 'ugolini-carousel-pagination';
+		nav.setAttribute('aria-label', 'Seleziona immagine');
+		const buttons = slides.map((_, index) => {
+			const button = document.createElement('button');
+			button.type = 'button';
+			button.setAttribute('aria-label', `Immagine ${index + 1}`);
+			button.addEventListener('click', () => show(index));
+			nav.append(button);
+			return button;
+		});
+		const show = index => {
+			active = (index + slides.length) % slides.length;
+			slides.forEach((slide, item) => slide.classList.toggle('is-active', item === active));
+			buttons.forEach((button, item) => button.classList.toggle('is-active', item === active));
+		};
+		carousel.append(nav);
+		show(active);
+		if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => { if (!carousel.matches(':hover, :focus-within')) show(active + 1); }, 5000);
+	}
+})();
+
+(() => {
+	const header = document.querySelector('body > header, header.wp-block-template-part');
+	const firstSection = document.querySelector('main > :first-child, main > article > :first-child');
+	if (!header) return;
+	if (firstSection?.matches('.ugolini-hero, .ugolini-page-hero, .preview-article-hero')) document.body.classList.add('has-overlay-header');
+	const update = () => document.body.classList.toggle('is-scrolled', scrollY > 12);
+	const engage = engaged => {
+		document.body.classList.toggle('is-header-engaged', engaged);
+		if (!engaged) {
+			ugoliniClosePageSubmenus();
+			ugoliniCloseShopMenu();
+		}
+		dispatchEvent(new CustomEvent('ugolini:header-engagement', { detail: engaged }));
+	};
+	header.addEventListener('pointerenter', () => engage(true));
+	header.addEventListener('pointerleave', () => engage(false));
+	header.addEventListener('focusin', () => engage(true));
+	header.addEventListener('focusout', () => requestAnimationFrame(() => {
+		if (!header.contains(document.activeElement)) engage(false);
+	}));
+	addEventListener('scroll', update, { passive: true });
+	update();
+})();
+
+(() => {
+	const header = document.querySelector('body > header, header.wp-block-template-part');
+	if (!header) return;
+	const update = () => document.documentElement.style.setProperty('--ugolini-header-bottom', `${Math.max(0, header.getBoundingClientRect().bottom)}px`);
+	addEventListener('scroll', update, { passive: true });
+	addEventListener('resize', update, { passive: true });
+	update();
+})();
+
+(() => {
+	if (document.querySelector('.ugolini-breadcrumbs')) return;
+	const title = document.querySelector('main h1')?.textContent.trim() || document.title.split('—')[0].trim();
+	if (!title) return;
+	const header = document.querySelector('body > header, header.wp-block-template-part');
+	if (!header) return;
+	const isProduct = Boolean(document.querySelector('.ugolini-product-page, .wp-block-surecart-product-page'));
+	const isArticle = document.body.classList.contains('single-post') || Boolean(document.querySelector('main article'));
+	const isHome = ugoliniCurrentPath === '/';
+	const home = isHome ? '' : '<a class="ugolini-breadcrumbs__ancestor" href="/">Home</a><i class="ugolini-breadcrumbs__ancestor" aria-hidden="true"></i>';
+	const parent = isProduct ? '<a class="ugolini-breadcrumbs__ancestor" href="/shop/">Shop</a><i class="ugolini-breadcrumbs__ancestor" aria-hidden="true"></i>' : isArticle ? '<a class="ugolini-breadcrumbs__ancestor" href="/blog/">Blog</a><i class="ugolini-breadcrumbs__ancestor" aria-hidden="true"></i>' : '';
+	const breadcrumb = document.createElement('nav');
+	breadcrumb.className = `ugolini-breadcrumbs${isProduct ? ' is-product' : ''}`;
+	breadcrumb.setAttribute('aria-label', 'Breadcrumb');
+	breadcrumb.innerHTML = `<div class="ugolini-breadcrumbs__inner">${home}${parent}<a class="ugolini-breadcrumbs__page" aria-current="page"></a><i class="ugolini-breadcrumbs__section-separator" aria-hidden="true" hidden></i><span class="ugolini-breadcrumbs__section" hidden></span></div>`;
+	const page = breadcrumb.querySelector('.ugolini-breadcrumbs__page');
+	page.textContent = title;
+	const pageUrl = new URL(location.href);
+	pageUrl.hash = '';
+	page.href = pageUrl;
+	header.append(breadcrumb);
+	const section = breadcrumb.querySelector('.ugolini-breadcrumbs__section');
+	const separator = breadcrumb.querySelector('.ugolini-breadcrumbs__section-separator');
+	const showSection = label => {
+		const value = label && label !== title ? label : '';
+		section.textContent = value;
+		section.hidden = !value;
+		separator.hidden = !value;
+		breadcrumb.classList.toggle('has-section', Boolean(value));
+		page.toggleAttribute('aria-current', !value);
+		section.toggleAttribute('aria-current', Boolean(value));
+	};
+	for (const link of document.querySelectorAll('.ugolini-page-submenu a[href^="#"]')) {
+		const target = document.querySelector(link.getAttribute('href'));
+		link.addEventListener('click', () => showSection(ugoliniSectionTargets.get(target)));
+	}
+	const update = () => {
+		const topContext = !isProduct && scrollY <= 12 && document.body.classList.contains('is-header-engaged');
+		const visible = isProduct || scrollY > 12 || topContext;
+		breadcrumb.classList.toggle('is-top-context', topContext);
+		breadcrumb.classList.toggle('is-visible', visible);
+		document.documentElement.style.setProperty('--ugolini-submenu-offset', visible ? '48px' : '0px');
+		const siteHeaderBottom = header.querySelector('.ugolini-site-header')?.getBoundingClientRect().bottom ?? header.getBoundingClientRect().bottom;
+		document.documentElement.style.setProperty('--ugolini-header-bottom', `${Math.max(0, siteHeaderBottom + (visible ? 48 : 0))}px`);
+		let active = '';
+		const edge = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ugolini-header-bottom')) + 72;
+		if (topContext) active = 'Sottomenu';
+		else for (const [target, label] of ugoliniSectionTargets) if (target.getBoundingClientRect().top <= edge) active = label;
+		showSection(active);
+	};
+	addEventListener('scroll', update, { passive: true });
+	addEventListener('resize', update, { passive: true });
+	addEventListener('ugolini:header-engagement', update);
+	update();
+	if (location.hash) requestAnimationFrame(() => document.querySelector(location.hash)?.scrollIntoView());
+})();
+
+(() => {
+	const icons = [
+		'<path d="M20 6 9 17l-5-5"/>',
+		'<path d="M12 22V12"/><path d="m16 17 2 2 4-4"/><path d="M3.29 7 12 12l8.71-5"/>',
+		'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/>',
+		'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>',
+	];
+	document.querySelectorAll('.ugolini-wholesale-benefits li').forEach((item, index) => {
+		if (item.querySelector('.lucide')) return;
+		const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		svg.setAttribute('class', 'lucide'); svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('fill', 'none'); svg.setAttribute('stroke', 'currentColor'); svg.setAttribute('stroke-width', '2'); svg.setAttribute('aria-hidden', 'true');
+		svg.innerHTML = icons[index % icons.length];
+		item.querySelector('strong')?.after(svg);
+	});
+})();
+
+(() => {
+	const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+	for (const section of document.querySelectorAll('[data-counter-section]')) {
+		const animate = () => {
+			for (const counter of section.querySelectorAll('[data-counter]')) {
+				const target = Number(counter.dataset.counter);
+				const suffix = counter.dataset.suffix || '';
+				if (reduceMotion) { counter.textContent = `${target}${suffix}`; continue; }
+				const started = performance.now();
+				const tick = now => {
+					const progress = Math.min(1, (now - started) / 1200);
+					counter.textContent = `${Math.round(target * (1 - Math.pow(1 - progress, 3)))}${suffix}`;
+					if (progress < 1) requestAnimationFrame(tick);
+				};
+				requestAnimationFrame(tick);
+			}
+		};
+		new IntersectionObserver(entries => { if (entries[0].isIntersecting) animate(); }, { threshold: .35 }).observe(section);
+	}
 })();
 
 for (const timeline of document.querySelectorAll('[data-timeline]')) {

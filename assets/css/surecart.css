@@ -19,9 +19,9 @@
 
 :where([class^="wp-block-surecart-"], [class*=" wp-block-surecart-"], sc-product-list, sc-product-page, sc-cart, sc-checkout, sc-customer-dashboard) { font-family: var(--wp--preset--font-family--interface); }
 .ugolini-product-list { width: min(calc(100% - (2 * var(--ugolini-gutter))), var(--ugolini-container)); max-width: var(--ugolini-container); margin-inline: auto; }
-.ugolini-shop-tabs { width: min(calc(100% - (2 * var(--ugolini-gutter))), var(--ugolini-container)); display: flex; gap: 0.75rem; margin: 0 auto 2rem; overflow-x: auto; }
+.ugolini-shop-tabs { width: min(calc(100% - (2 * var(--ugolini-gutter))), var(--ugolini-container)); display: flex; gap: 0.75rem; margin: -0.4rem auto 1.6rem; padding-block: 0.4rem; overflow-x: auto; scroll-padding-inline: 0.4rem; }
 .ugolini-shop-tabs a { flex: 0 0 auto; height: 48px; display: inline-flex; align-items: center; padding-inline: 1.35rem; border: 1px solid var(--wp--preset--color--text); border-radius: 999px; color: var(--wp--preset--color--text); font-size: 0.78rem; text-decoration: none; }
-.ugolini-shop-tabs a:hover,
+.ugolini-shop-tabs a:hover { transform: scale(1.02); }
 .ugolini-shop-tabs a.is-active,
 .ugolini-shop-tabs a[aria-current="page"] { border-color: var(--wp--preset--color--text); background: var(--wp--preset--color--text); color: var(--wp--preset--color--white); }
 .ugolini-product-template { width: 100%; gap: clamp(1.25rem, 2.2vw, 2rem) !important; }
@@ -29,17 +29,22 @@
 .ugolini-product-card-media { aspect-ratio: 1 !important; min-height: 0 !important; margin: 0 0 1rem; overflow: hidden; background: var(--wp--preset--color--beige); }
 .ugolini-product-card-media .wp-block-cover__image-background { object-fit: cover; transition: transform 600ms ease; }
 .ugolini-product-card:hover .wp-block-cover__image-background { transform: scale(1.035); }
+.ugolini-product-card > .ugolini-product-card-media,
+.preview-product-card > .preview-product-media { transition: transform 260ms var(--ugolini-motion-ease); }
+.ugolini-product-card:hover > .ugolini-product-card-media,
+.preview-product-card:hover > .preview-product-media { box-shadow: none; transform: scale(1.02); }
 .ugolini-product-card-meta { min-height: 1.1rem; margin: 0 0 0.3rem; gap: 0.35rem; color: var(--wp--preset--color--secondary-text); font-family: var(--wp--preset--font-family--interface); font-size: 0.62rem; font-weight: 650; letter-spacing: 0.11em; line-height: 1.3; text-transform: uppercase; }
 .ugolini-product-card-meta :where(a, span, li) { color: inherit; font: inherit; letter-spacing: inherit; text-decoration: none; text-transform: inherit; }
 .ugolini-product-card-title { margin: 0.2rem 0 0.55rem; font-family: var(--wp--preset--font-family--display); font-size: clamp(1.05rem, 1.25vw, 1.35rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.18; }
 .ugolini-product-card-title a { text-decoration: none; }
 .ugolini-product-card-price { margin: 0; gap: 0.5rem; font-size: 0.84rem; font-weight: 650; }
-.ugolini-shop-tools { justify-content: flex-end !important; align-items: center !important; gap: 1.5rem !important; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--wp--preset--color--border); }
+.ugolini-shop-tools { justify-content: flex-end !important; align-items: center !important; gap: clamp(2.5rem, 4vw, 4.5rem) !important; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--wp--preset--color--border); }
 .ugolini-shop-tools { --sc-font-size-small: 0.9rem; --sc-font-size-medium: 0.9rem; }
 .ugolini-shop-tools > .wp-block-group { align-items: center !important; }
 .ugolini-shop-tools :where(.wp-block-surecart-product-list-sort, .wp-block-surecart-product-list-filter, .wp-block-surecart-product-list-search) { min-height: 48px; }
 .ugolini-shop-tools :where(button, input, select) { min-height: 48px; border-color: var(--wp--preset--color--border); background: transparent; color: var(--wp--preset--color--text); }
 .ugolini-shop-tools :where(button, label, select, option, [role="button"]) { font-family: var(--wp--preset--font-family--interface); font-size: 0.9rem; font-weight: 600; letter-spacing: 0; line-height: 1.2; text-transform: none; }
+.ugolini-shop-tools :where(.wp-block-surecart-product-list-sort, .wp-block-surecart-product-list-filter) :where(button, label, span, select, option, [role="button"]) { font-family: var(--wp--preset--font-family--interface) !important; font-size: 0.9rem !important; font-weight: 600 !important; letter-spacing: 0 !important; line-height: 1.2 !important; text-transform: none !important; }
 .ugolini-shop-tools :where(button):hover { border-color: var(--wp--preset--color--text); background: var(--wp--preset--color--text); color: var(--wp--preset--color--white); }
 .ugolini-shop-tools .wp-block-surecart-product-list-filter :where(button, [role="button"]) { padding-inline: 0; border: 0; }
 .ugolini-shop-tools .wp-block-surecart-product-list-filter :where(button, [role="button"]):hover { background: transparent; color: var(--wp--preset--color--text); }
@@ -53,8 +58,6 @@
 :where(.wp-block-surecart-product-page, .wp-block-surecart-product-form) { width: 100%; }
 :where(.wp-block-surecart-product-media img) { background: transparent; }
 .ugolini-product-page { padding: 1.75rem 0 clamp(4rem, 7vw, 7rem) !important; }
-.ugolini-product-breadcrumb { width: min(calc(100% - (2 * var(--ugolini-gutter))), var(--ugolini-container)) !important; max-width: var(--ugolini-container) !important; display: flex; gap: 0.65rem; margin: 0 auto 1.75rem !important; color: var(--wp--preset--color--secondary-text); font-size: 0.74rem; }
-.ugolini-product-breadcrumb a { text-decoration: none; }
 .ugolini-product-columns { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(420px, 0.94fr); gap: clamp(3rem, 5.5vw, 6rem); align-items: start !important; margin-block-start: 0 !important; }
 .ugolini-product-columns > .wp-block-column { width: auto !important; flex-basis: auto !important; }
 .ugolini-product-gallery { padding-left: 88px; overflow: visible !important; }
@@ -111,7 +114,7 @@
 :where(.wp-block-surecart-product-buy-buttons .wp-block-button, .wp-block-surecart-product-buy-buttons .wp-element-button) { flex: 1 1 12rem; }
 :where(.wp-block-surecart-product-buy-buttons .wp-element-button) { width: 100%; min-height: 54px; }
 :where(.wp-block-surecart-product-buy-buttons) :where(button, .wp-element-button, .wp-block-button__link):hover,
-:where(.wp-block-surecart-product-buy-buttons) :where(button, .wp-element-button, .wp-block-button__link):focus-visible { border-color: var(--wp--preset--color--brand-dark) !important; background: var(--wp--preset--color--brand-dark) !important; color: var(--wp--preset--color--white) !important; }
+:where(.wp-block-surecart-product-buy-buttons) :where(button, .wp-element-button, .wp-block-button__link):focus-visible { border-color: #a3131c !important; background: #a3131c !important; color: var(--wp--preset--color--white) !important; box-shadow: none !important; }
 :where(.wp-block-surecart-product-quantity-input, .wp-block-surecart-product-quantity-control) { min-height: 46px; }
 .ugolini-product-summary .sc-quantity-selector,
 .ugolini-product-summary .sc-quantity-selector > * { background: var(--wp--preset--color--white) !important; }
@@ -150,7 +153,10 @@
 
 /* SureCart's live wrappers must resolve to the same geometry as the preview. */
 .ugolini-deal-rail.alignfull { margin-top: 0 !important; padding-inline: 0 !important; }
-.ugolini-deal-rail .ugolini-product-template { padding: 0 var(--ugolini-gutter) 0.5rem !important; }
+.ugolini-deal-rail .ugolini-product-template { padding: 1.5rem var(--ugolini-gutter) !important; }
+.ugolini-deal-rail .ugolini-product-card { transition: transform 260ms var(--ugolini-motion-ease); }
+.ugolini-deal-rail .ugolini-product-card:hover { box-shadow: none; transform: scale(1.015); }
+.ugolini-deal-rail .ugolini-product-card:hover > .ugolini-product-card-media { box-shadow: none; transform: none; }
 .ugolini-deal-rail .ugolini-product-card .ugolini-product-card-media {
 	display: block;
 	width: calc(100% + 2.4rem);

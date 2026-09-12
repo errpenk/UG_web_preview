@@ -55,7 +55,7 @@ function ugolini_group_page_pattern_content( $file ) {
  * WordPress revisions retain the replaced page bodies for recovery.
  */
 function ugolini_group_seed_preview_pages() {
-	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_pages_639_seeded' ) ) {
+	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_pages_662_seeded' ) ) {
 		return;
 	}
 
@@ -68,6 +68,7 @@ function ugolini_group_seed_preview_pages() {
 		'catalogo'   => array( 'Catalogo', 'page-catalogue', true ),
 		'supporto'   => array( 'Supporto e informazioni legali', 'page-legal', true ),
 		'editoriale' => array( 'Pagina editoriale', 'page-editorial', true ),
+		'events'     => array( 'Eventi', 'page-events', true ),
 		'shop'       => array( 'Shop', 'page-shop', true ),
 	);
 	$created  = false;
@@ -177,7 +178,7 @@ function ugolini_group_seed_preview_pages() {
 		flush_rewrite_rules( false );
 	}
 	if ( $complete ) {
-		update_option( 'ugolini_group_pages_639_seeded', 1, false );
+		update_option( 'ugolini_group_pages_662_seeded', 1, false );
 	}
 }
 add_action( 'init', 'ugolini_group_seed_preview_pages', 99 );
@@ -750,6 +751,19 @@ function ugolini_group_collection_image( $term ) {
 	return $query->posts ? (string) get_the_post_thumbnail_url( $query->posts[0], 'large' ) : '';
 }
 
+/** Return up to four images belonging to the requested SureCart collection. */
+function ugolini_group_collection_images( $term, $limit = 4 ) {
+	if ( ! $term instanceof WP_Term ) return array();
+	$query = new WP_Query(
+		array(
+			'post_type' => 'sc_product', 'post_status' => current_user_can( 'edit_posts' ) ? array( 'publish', 'draft' ) : 'publish',
+			'posts_per_page' => $limit, 'orderby' => 'menu_order', 'order' => 'ASC', 'fields' => 'ids', 'no_found_rows' => true,
+			'tax_query' => array( array( 'taxonomy' => 'sc_collection', 'field' => 'term_id', 'terms' => $term->term_id ) ),
+		)
+	);
+	return array_values( array_filter( array_map( static fn( $id ) => (string) get_the_post_thumbnail_url( $id, 'large' ), $query->posts ) ) );
+}
+
 /** Count products related to a collection, including drafts for editors. */
 function ugolini_group_collection_count( $term ) {
 	$query = new WP_Query(
@@ -903,6 +917,7 @@ function ugolini_group_icon( $name, $label = '' ) {
 		'mail'           => '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
 		'phone'          => '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.69 2.8a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.33 1.84.56 2.8.69A2 2 0 0 1 22 16.92z"/>',
 		'map-pin'        => '<path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+		'calendar'       => '<path d="M8 2v4M16 2v4M3 10h18"/><rect width="18" height="18" x="3" y="4" rx="2"/>',
 		'message-circle' => '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3 1.7-5.1A7 7 0 0 1 3 12V8a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/>',
 		'utensils'       => '<path d="M3 2v7c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
 		'sparkles'       => '<path d="m12 3-1.9 5.1L5 10l5.1 1.9L12 17l1.9-5.1L19 10l-5.1-1.9Z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/>',
@@ -913,6 +928,105 @@ function ugolini_group_icon( $name, $label = '' ) {
 	return '<svg class="lucide lucide-' . esc_attr( $name ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"' . ( $label ? ' role="img" aria-label="' . esc_attr( $label ) . '"' : ' aria-hidden="true"' ) . '>' . $icons[ $name ] . '</svg>';
 }
 
+/** Read and validate the single event data source shared by Home and Events. */
+function ugolini_group_events_data() {
+	static $events = null;
+	if ( null !== $events ) return $events;
+	$path = get_theme_file_path( 'data/events.json' );
+	$data = is_readable( $path ) ? json_decode( file_get_contents( $path ), true ) : array();
+	$events = array_values(
+		array_filter(
+			is_array( $data ) ? $data : array(),
+			static function ( $event ) {
+				return is_array( $event )
+					&& ! empty( $event['id'] )
+					&& ! empty( $event['title'] )
+					&& preg_match( '/^\d{4}-\d{2}-\d{2}$/', $event['startDate'] ?? '' )
+					&& preg_match( '/^\d{4}-\d{2}-\d{2}$/', $event['endDate'] ?? '' )
+					&& $event['startDate'] <= $event['endDate'];
+			}
+		)
+	);
+	return $events;
+}
+
+/** Compare calendar dates only, using the WordPress site timezone for today. */
+function ugolini_group_event_status( $event, $today = '' ) {
+	$today = $today ?: wp_date( 'Y-m-d' );
+	if ( $event['endDate'] < $today ) return 'past';
+	if ( $event['startDate'] <= $today ) return 'current';
+	return 'upcoming';
+}
+
+/** Format an event range without converting it through UTC. */
+function ugolini_group_event_date_label( $start, $end ) {
+	$months = array( 1 => 'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre' );
+	$start_parts = array_map( 'intval', explode( '-', $start ) );
+	$end_parts   = array_map( 'intval', explode( '-', $end ) );
+	if ( $start_parts[0] === $end_parts[0] && $start_parts[1] === $end_parts[1] ) {
+		return $start_parts[2] . '–' . $end_parts[2] . ' ' . $months[ $end_parts[1] ] . ' ' . $end_parts[0];
+	}
+	return $start_parts[2] . ' ' . $months[ $start_parts[1] ] . ' ' . $start_parts[0] . ' – ' . $end_parts[2] . ' ' . $months[ $end_parts[1] ] . ' ' . $end_parts[0];
+}
+
+/** Render one accessible event deck with image, details, thumbnails and controls. */
+function ugolini_group_event_deck( $events, $heading, $home = false ) {
+	if ( ! $events ) return '';
+	$status_labels = array( 'current' => 'In corso', 'upcoming' => 'In programma', 'past' => 'Concluso' );
+	$slides = '';
+	$thumbs = '';
+	foreach ( $events as $index => $event ) {
+		$status = ugolini_group_event_status( $event );
+		$image  = get_theme_file_uri( 'assets/images/events/' . $event['image'] );
+		$link   = home_url( '/events/#' . sanitize_title( $event['id'] ) );
+		$hidden = $index ? ' hidden' : '';
+		$slides .= '<article id="' . esc_attr( $event['id'] ) . '" class="ugolini-event-slide" data-event-slide data-event-index="' . esc_attr( $index ) . '"' . $hidden . '>';
+		$slides .= '<figure class="ugolini-event-media"><img src="' . esc_url( $image ) . '" alt="' . esc_attr( $event['alt'] ?? $event['title'] ) . '" loading="' . ( $index ? 'lazy' : 'eager' ) . '"></figure>';
+		$slides .= '<div class="ugolini-event-copy"><p class="ugolini-eyebrow">' . esc_html( $status_labels[ $status ] ) . '</p><h3>' . esc_html( $event['title'] ) . '</h3>';
+		$slides .= '<p class="ugolini-event-lead"><strong>' . esc_html( $event['lead'] ) . '</strong></p><p>' . esc_html( $event['description'] ) . '</p><p class="ugolini-event-highlight"><strong>' . esc_html( $event['highlight'] ) . '</strong></p>';
+		$slides .= '<p class="ugolini-event-brands">' . esc_html( implode( ' · ', $event['brands'] ?? array() ) ) . '</p><div class="ugolini-event-meta"><span>' . ugolini_group_icon( 'map-pin' ) . esc_html( $event['location'] ) . '</span><span>' . ugolini_group_icon( 'calendar' ) . esc_html( ugolini_group_event_date_label( $event['startDate'], $event['endDate'] ) ) . '</span></div>';
+		if ( $home ) $slides .= '<a class="ugolini-event-link" href="' . esc_url( $link ) . '">Scopri l’evento <span aria-hidden="true">→</span></a>';
+		$slides .= '</div></article>';
+		$thumbs .= '<button type="button" data-event-go="' . esc_attr( $index ) . '" aria-label="Mostra ' . esc_attr( $event['title'] . ', ' . implode( ', ', $event['brands'] ?? array() ) ) . '" aria-current="' . ( $index ? 'false' : 'true' ) . '"><img src="' . esc_url( $image ) . '" alt="" loading="lazy"></button>';
+	}
+	return '<section class="ugolini-events-group"><div class="ugolini-section-heading"><div><p class="ugolini-eyebrow">Eventi</p><h2>' . esc_html( $heading ) . '</h2></div></div><div class="ugolini-event-deck" data-event-deck><div class="ugolini-event-slides">' . $slides . '</div><nav class="ugolini-event-thumbs" aria-label="Seleziona evento">' . $thumbs . '</nav><div class="ugolini-event-controls"><button type="button" data-event-prev aria-label="Evento precedente">←</button><output aria-live="polite">1 / ' . count( $events ) . '</output><button type="button" data-event-next aria-label="Evento successivo">→</button></div></div></section>';
+}
+
+/** Render every event as an editorial card on the Events archive. */
+function ugolini_group_event_list( $events, $heading, $id ) {
+	$status_labels = array( 'current' => 'In corso', 'upcoming' => 'In programma', 'past' => 'Concluso' );
+	$cards = '';
+	foreach ( $events as $event ) {
+		$status = ugolini_group_event_status( $event );
+		$image  = get_theme_file_uri( 'assets/images/events/' . $event['image'] );
+		$cards .= '<article id="' . esc_attr( $event['id'] ) . '" class="ugolini-event-card"><figure><img src="' . esc_url( $image ) . '" alt="' . esc_attr( $event['alt'] ?? $event['title'] ) . '" loading="lazy"></figure><div><p class="ugolini-eyebrow">' . esc_html( $status_labels[ $status ] ) . '</p><h3>' . esc_html( $event['title'] ) . '</h3><p class="ugolini-event-lead"><strong>' . esc_html( $event['lead'] ) . '</strong></p><p>' . esc_html( $event['description'] ) . '</p><p class="ugolini-event-highlight"><strong>' . esc_html( $event['highlight'] ) . '</strong></p><p class="ugolini-event-brands">' . esc_html( implode( ' · ', $event['brands'] ?? array() ) ) . '</p><div class="ugolini-event-meta"><span>' . ugolini_group_icon( 'map-pin' ) . esc_html( $event['location'] ) . '</span><span>' . ugolini_group_icon( 'calendar' ) . esc_html( ugolini_group_event_date_label( $event['startDate'], $event['endDate'] ) ) . '</span></div></div></article>';
+	}
+	if ( ! $cards ) $cards = '<p class="ugolini-event-empty">Nessun evento in questa sezione.</p>';
+	return '<section id="' . esc_attr( $id ) . '" class="ugolini-event-list-section"><div class="ugolini-section-heading"><div><p class="ugolini-eyebrow">Eventi</p><h2>' . esc_html( $heading ) . '</h2></div></div><div class="ugolini-event-list">' . $cards . '</div></section>';
+}
+
+/** Render active events on Home, and active plus past events on the archive. */
+function ugolini_group_events_shortcode( $attributes = array() ) {
+	$attributes = shortcode_atts( array( 'context' => 'home' ), $attributes, 'ugolini_events' );
+	$today      = wp_date( 'Y-m-d' );
+	$active     = array();
+	$past       = array();
+	foreach ( ugolini_group_events_data() as $event ) {
+		if ( 'past' === ugolini_group_event_status( $event, $today ) ) $past[] = $event;
+		else $active[] = $event;
+	}
+	usort( $active, static fn( $a, $b ) => strcmp( $b['startDate'], $a['startDate'] ) ?: strcmp( $b['endDate'], $a['endDate'] ) );
+	usort( $past, static fn( $a, $b ) => strcmp( $b['endDate'], $a['endDate'] ) ?: strcmp( $b['startDate'], $a['startDate'] ) );
+	if ( 'home' === $attributes['context'] ) {
+		if ( ! $active ) return '';
+		return '<section class="ugolini-home-events ugolini-section"><div class="alignwide">' . ugolini_group_event_deck( $active, 'Prossimi appuntamenti', true ) . '</div></section>';
+	}
+	$html = ugolini_group_event_list( $active, 'Prossimi eventi', 'sezione-prossimi-eventi' );
+	$html .= ugolini_group_event_list( $past, 'Eventi passati', 'sezione-eventi-passati' );
+	return '<div class="ugolini-events-archive ugolini-section"><div class="alignwide">' . $html . '</div></div>';
+}
+add_shortcode( 'ugolini_events', 'ugolini_group_events_shortcode' );
+
 /** Collection-aware editorial and cooking blocks for product pages. */
 function ugolini_group_product_story_shortcode() {
 	$terms = is_singular() ? wp_get_post_terms( get_the_ID(), 'sc_collection' ) : array();
@@ -920,17 +1034,20 @@ function ugolini_group_product_story_shortcode() {
 	$slug = $term instanceof WP_Term ? $term->slug : 'salse-tartufo';
 	$link = $term instanceof WP_Term ? get_term_link( $term ) : home_url( '/shop/' );
 	$copy = array(
-		'pesto'           => array( 'Pesti Ugolini Gourmet', 'Ricette pronte per condire pasta, bruschette e preparazioni creative.' ),
-		'sughi'           => array( 'Sughi Ugolini Gourmet', 'Ricette italiane pronte per una tavola semplice, generosa e ricca di gusto.' ),
-		'marmellate'      => array( 'Marmellate gastronomiche Ugolini Gourmet', 'Note agrodolci pensate per accompagnare formaggi, salumi e carni.' ),
-		'olio-al-tartufo' => array( 'Oli al tartufo Ugolini Gourmet', 'Il profumo del tartufo bianco e nero incontra l’olio extra vergine di oliva.' ),
-		'salse-funghi'    => array( 'Salse ai funghi Ugolini Gourmet', 'Porcini e champignon in creme morbide, pronte per la cucina di ogni giorno.' ),
-		'salse-tartufo'   => array( 'Specialità al tartufo Ugolini Gourmet', 'Salse, creme e condimenti che portano il carattere del tartufo in tavola.' ),
+		'pesto'           => array( 'Pesti Ugolini Gourmet', 'Ricette pronte per condire pasta, bruschette e preparazioni creative.', 'Dal pesto alla Genovese alle varianti rosse e vegetali, ogni referenza mantiene ingredienti, formati e indicazioni d’uso propri: consulta la scheda del prodotto prima del servizio.' ),
+		'sughi'           => array( 'Sughi Ugolini Gourmet', 'Ricette italiane pronte per una tavola semplice, generosa e ricca di gusto.', 'La collezione comprende preparazioni al pomodoro, ragù e proposte dal profilo più deciso. Scalda dolcemente e completa il piatto seguendo sempre le indicazioni della singola referenza.' ),
+		'marmellate'      => array( 'Marmellate gastronomiche Ugolini Gourmet', 'Note agrodolci pensate per accompagnare formaggi, salumi e carni.', 'Le diverse combinazioni di frutta e ortaggi aiutano a costruire contrasti equilibrati su taglieri, aperitivi e secondi piatti. Parti da una piccola quantità e regola l’abbinamento al gusto.' ),
+		'olio-al-tartufo' => array( 'Oli al tartufo Ugolini Gourmet', 'Il profumo del tartufo bianco e nero incontra l’olio extra vergine di oliva.', 'Pensati come condimenti di finitura, valorizzano pasta, risotti, uova, carne e verdure. Bastano poche gocce; ingredienti e modalità di conservazione restano quelli riportati in etichetta.' ),
+		'salse-funghi'    => array( 'Salse ai funghi Ugolini Gourmet', 'Porcini e champignon in creme morbide, pronte per la cucina di ogni giorno.', 'Servile su primi piatti, crostini, carne o verdure e regola la consistenza con moderazione. Ogni ricetta conserva il proprio profilo e le informazioni specifiche della confezione.' ),
+		'salse-tartufo'   => array( 'Specialità al tartufo Ugolini Gourmet', 'Salse, creme e condimenti che portano il carattere del tartufo in tavola.', 'La collezione riunisce ricette e formati diversi per completare pasta, riso, uova, carne, verdure e crostini con un prodotto pronto all’uso e facile da dosare.' ),
 	);
 	$content = $copy[ $slug ] ?? $copy['salse-tartufo'];
-	$image = $term instanceof WP_Term ? ugolini_group_collection_image( $term ) : 'https://ugolinigroup.com/wp-content/uploads/2026/08/8831-sugo-tartufo-nero-ugolini-gourmet-7.jpg';
+	$images = $term instanceof WP_Term ? ugolini_group_collection_images( $term ) : array();
+	if ( ! $images ) $images = array( 'https://ugolinigroup.com/wp-content/uploads/2026/08/8831-sugo-tartufo-nero-ugolini-gourmet-7.jpg' );
+	$slides = '';
+	foreach ( $images as $index => $image ) $slides .= '<img class="ugolini-carousel__slide' . ( 0 === $index ? ' is-active' : '' ) . '" src="' . esc_url( $image ) . '" alt="" loading="' . ( 0 === $index ? 'eager' : 'lazy' ) . '">';
 	if ( is_wp_error( $link ) ) $link = home_url( '/shop/' );
-	return '<section class="ugolini-product-story"><img src="' . esc_url( $image ) . '" alt=""><div><p class="ugolini-eyebrow">Continua a scoprire</p><h2>' . esc_html( $content[0] ) . '</h2><p>' . esc_html( $content[1] ) . '</p><a href="' . esc_url( $link ) . '#ugolini-products">Vai alla collezione</a></div></section>';
+	return '<section class="ugolini-product-story"><div class="ugolini-carousel ugolini-product-story__media" data-carousel>' . $slides . '</div><div class="ugolini-product-story__copy"><div><p class="ugolini-eyebrow">Continua a scoprire</p><h2>' . esc_html( $content[0] ) . '</h2></div><div><p>' . esc_html( $content[1] ) . '</p><p>' . esc_html( $content[2] ) . '</p><a href="' . esc_url( $link ) . '#ugolini-products">Vai alla collezione</a></div></div></section>';
 }
 add_shortcode( 'ugolini_product_story', 'ugolini_group_product_story_shortcode' );
 
@@ -978,11 +1095,13 @@ function ugolini_group_product_guide_shortcode() {
 		),
 	);
 	$items = $guides[ $slug ] ?? $guides['salse-tartufo'];
+	$images = $term instanceof WP_Term ? ugolini_group_collection_images( $term ) : array();
+	if ( ! $images ) $images = array( 'https://ugolinigroup.com/wp-content/uploads/2026/08/8831-sugo-tartufo-nero-ugolini-gourmet-7.jpg' );
 	$html  = '';
-	foreach ( $items as $item ) {
-		$html .= '<details class="ugolini-product-guide__item"><summary><span>' . ugolini_group_icon( $item[0] ) . esc_html( $item[1] ) . '</span></summary><p>' . esc_html( $item[2] ) . '</p></details>';
+	foreach ( $items as $index => $item ) {
+		$html .= '<article class="ugolini-product-guide__item"><div><h3>' . ugolini_group_icon( $item[0] ) . esc_html( $item[1] ) . '</h3><p>' . esc_html( $item[2] ) . '</p></div><img src="' . esc_url( $images[ $index % count( $images ) ] ) . '" alt="" loading="lazy"></article>';
 	}
-	$image = $term instanceof WP_Term ? ugolini_group_collection_image( $term ) : '';
+	$image = $images[0];
 	$style = $image ? ' style="--ugolini-sticky-image:url(\'' . esc_url( $image ) . '\')"' : '';
 	return '<section class="ugolini-product-guide"><div class="alignwide"><div class="ugolini-product-guide__list">' . $html . '</div><div class="ugolini-product-guide__visual"' . $style . '><span>Guida alla collezione</span><h2>Assaggia, abbina, conosci</h2><p>Indicazioni pratiche per valorizzare questa famiglia di prodotti.</p></div></div></section>';
 }
@@ -1152,7 +1271,11 @@ add_filter( 'render_block_core/query-title', 'ugolini_group_search_heading' );
 
 /** Header account/cart links share the same Lucide visual language. */
 function ugolini_group_header_commerce_shortcode() {
-	return '<a class="ugolini-header-icon" href="' . esc_url( home_url( '/customer-dashboard/' ) ) . '" aria-label="' . esc_attr__( 'Account', 'ugolini-group' ) . '">' . ugolini_group_icon( 'user' ) . '</a><a class="ugolini-header-icon" href="' . esc_url( home_url( '/checkout/' ) ) . '" aria-label="' . esc_attr__( 'Carrello, 0 prodotti', 'ugolini-group' ) . '">' . ugolini_group_icon( 'shopping-bag' ) . '<span class="ugolini-cart-count">0</span></a>';
+	$account = '<a class="ugolini-header-icon" href="' . esc_url( home_url( '/customer-dashboard/' ) ) . '" aria-label="' . esc_attr__( 'Account', 'ugolini-group' ) . '">' . ugolini_group_icon( 'user' ) . '</a>';
+	$cart = shortcode_exists( 'sc_cart_menu_icon' )
+		? '<span class="ugolini-surecart-cart">' . do_shortcode( '[sc_cart_menu_icon cart_icon="shopping-bag" cart_menu_always_shown=1]' ) . '</span>'
+		: '<a class="ugolini-header-icon" href="' . esc_url( home_url( '/checkout/' ) ) . '" aria-label="' . esc_attr__( 'Carrello', 'ugolini-group' ) . '">' . ugolini_group_icon( 'shopping-bag' ) . '</a>';
+	return $account . $cart;
 }
 add_shortcode( 'ugolini_header_commerce', 'ugolini_group_header_commerce_shortcode' );
 

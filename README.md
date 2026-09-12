@@ -208,7 +208,45 @@ cards to a shared top edge, restores the black Ugolini wordmark in the footer,
 centres the mobile header, and fixes the live SureCart gallery and compact
 contact layout through tablet widths.
 
-V6.39 rebuilds Contact as a centered vertical flow with Lucide contact cues,
+V6.50 fixes WordPress submenus in subdirectory installations by matching menu labels, follows the native mobile-menu open state at every breakpoint, and sizes the current-page underline to its text.
+
+V6.49 attaches breadcrumbs to the measured header edge, adds hover/focus page-section menus on desktop, mobile accordion submenus, and synchronized section breadcrumbs.
+
+V6.48 increases the synchronized B2B story image band and stage, adds a mobile current-page underline, and introduces responsive left-aligned breadcrumbs that stay hidden over the transparent hero header.
+
+V6.47 expands all seven B2B service-story stages with factual lead and detail
+copy, adds a synchronized full-width narrow image strip below the progress
+axis, and keeps the shared scroll state responsible for text, marker and image.
+
+V6.46 removes the remaining Chi siamo gap between the fixed-background review
+showcase and the white Perché scegliere Ugolini section.
+
+V6.45 further compacts the desktop B2B scroll story and keeps its title on one
+line, strengthens catalogue responsiveness on narrow screens, removes the
+Shop editorial gap, vertically centres the homepage quality section, replaces
+the homepage split story with the existing full-width two-column carousel, and
+adds the current-state underline to Shop while retaining natural menu scaling.
+
+V6.44 restores the black B2B scroll story with a tighter title, active step and
+gold progress axis; restyles the professional Lucide assurances as a white,
+three-column editorial strip; keeps the current navigation underline still and
+animates it only after page navigation; normalizes Shop and Home navigation
+type, adds restrained menu hover scaling, preserves black mobile-drawer text at
+the top of overlay pages, and fixes the Contact commercial showcase background.
+
+V6.43 simplifies carousel pagination to white pills, adds a seven-step sticky
+B2B scroll story with a gold progress axis, introduces professional assurance
+cards, adds animated current-page navigation, and equalizes all image heroes
+with the homepage. V6.42 keeps the fixed-background review showcase only on Chi siamo with two
+cards, aligns catalogue and closing stories as explicit two-column layouts,
+standardizes outlined calls to action and carousel markers, adds commercial
+request cards to Contact, and turns the seven B2B service notes into a paced
+scroll sequence. V6.41 adds the fixed-background review showcase, page-specific closing
+carousels, editorial two-column carousel copy, and a transparent hero header.
+V6.40 adds native image carousels with pill pagination, always-visible product
+guides with circular series imagery, a scroll-animated company statistics band,
+cleaner B2B benefit rows, and normalized single-article typography. V6.39
+rebuilds Contact as a centered vertical flow with Lucide contact cues,
 removes the commercial image and mobile drawer tail rule, renames Scopri to Chi
 siamo, expands the supplied company story, and adds a collection-aware tasting
 guide with four accessible accordions to every product page.

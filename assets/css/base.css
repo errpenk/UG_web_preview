@@ -57,6 +57,11 @@
 	--ugolini-tan: #cda47f;
 	--ugolini-transition: 250ms ease;
 	--ugolini-transition-slow: 500ms cubic-bezier(0.22, 1, 0.36, 1);
+	--ugolini-motion-fast: 180ms;
+	--ugolini-motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+	--ugolini-weight-regular: 400;
+	--ugolini-weight-medium: 500;
+	--ugolini-weight-strong: 600;
 	--ugolini-shadow-overlay: 0 18px 50px rgb(23 23 20 / 12%);
 }
 
@@ -69,8 +74,9 @@
 html {
 	scroll-behavior: smooth;
 }
-.ugolini-scroll-top { position: fixed; z-index: 90; right: max(1rem, var(--ugolini-gutter)); bottom: max(1rem, var(--ugolini-gutter)); width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 50%; background: rgb(247 243 238 / 94%); color: var(--wp--preset--color--text); box-shadow: 0 8px 30px rgb(0 0 0 / 14%); cursor: pointer; opacity: 0; pointer-events: none; transform: translateY(10px); transition: opacity 180ms ease, transform 180ms ease; }
+.ugolini-scroll-top { position: fixed; z-index: 90; right: max(1rem, var(--ugolini-gutter)); bottom: max(1rem, var(--ugolini-gutter)); width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 50%; background: rgb(247 243 238 / 94%); color: var(--wp--preset--color--text); box-shadow: none; cursor: pointer; opacity: 0; pointer-events: none; transform: translateY(10px); transition: opacity 180ms ease, transform 180ms ease, background-color 180ms ease, color 180ms ease; }
 .ugolini-scroll-top.is-visible { opacity: 1; pointer-events: auto; transform: none; }
+.ugolini-scroll-top.is-visible:hover { background: var(--wp--preset--color--text); color: var(--wp--preset--color--white); transform: scale(1.06); }
 .ugolini-scroll-top svg { width: 21px; height: 21px; }
 
 body {
@@ -194,6 +200,14 @@ textarea {
 	color: var(--wp--preset--color--white) !important;
 }
 
+.ugolini-carousel { position: relative; isolation: isolate; }
+.ugolini-carousel__slide { position: absolute !important; z-index: 0; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; pointer-events: none; transition: opacity 700ms ease; }
+.ugolini-carousel__slide.is-active { opacity: 1; pointer-events: auto; }
+.ugolini-carousel-pagination { position: absolute; z-index: 5; left: 50%; bottom: clamp(1rem, 2vw, 1.75rem); display: flex; gap: .55rem; transform: translateX(-50%); }
+.ugolini-carousel-pagination button { width: 38px; height: 8px; min-width: 0; min-height: 0; padding: 0; border: 0; outline: 0; border-radius: 999px; background: rgb(255 255 255 / 48%); box-shadow: none; cursor: pointer; transition: width 220ms ease, background 220ms ease, transform 180ms ease; }
+.ugolini-carousel-pagination button.is-active { width: 68px; background: #fff; box-shadow: none; }
+.ugolini-carousel-pagination button:focus-visible { outline: 0; transform: scaleY(1.6); }
+
 :where(.ugolini-hero, .ugolini-featured-collection, .ugolini-campaign-split, .ugolini-catalogue-panel, .ugolini-dark-feature, .ugolini-page-hero--dark, .ugolini-page-hero--image) .has-white-background-color.wp-block-button__link:hover,
 :where(.ugolini-hero, .ugolini-featured-collection, .ugolini-campaign-split, .ugolini-catalogue-panel, .ugolini-dark-feature, .ugolini-page-hero--dark, .ugolini-page-hero--image) .has-white-background-color.wp-element-button:hover {
 	background: var(--wp--preset--color--white) !important;
@@ -303,4 +317,30 @@ textarea {
 	clip: rect(0, 0, 0, 0) !important;
 	white-space: nowrap !important;
 	border: 0 !important;
+}
+
+/* Shared information hierarchy: display titles, section titles, body, metadata. */
+:where(main, footer) :where(h1, h2) { font-weight: var(--ugolini-weight-regular); font-style: normal; }
+:where(main, footer) :where(h3, h4) { font-weight: var(--ugolini-weight-medium); font-style: normal; }
+:where(main, footer) :where(p, li, dd) { font-weight: var(--ugolini-weight-regular); }
+:where(main, footer) :where(strong, b) { font-weight: var(--ugolini-weight-strong); }
+:where(main, footer) :where(em, cite, blockquote) { font-style: italic; }
+:where(main, footer) :where(small, figcaption, .ugolini-card-meta, .ugolini-product-card-meta, .preview-article-date) { color: var(--wp--preset--color--secondary-text); font-weight: var(--ugolini-weight-medium); }
+
+/* Global interaction framework for current and future native controls. */
+:where(a, button, summary, [role="button"], input, select, textarea) {
+	transition-property: color, background-color, border-color, box-shadow, filter, opacity, transform, width;
+	transition-duration: var(--ugolini-motion-fast);
+	transition-timing-function: var(--ugolini-motion-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+	:where(main, footer) a:hover { color: var(--wp--preset--color--brand); }
+	:where(main, footer) :where(button, summary, [role="button"]):not(:disabled):hover { transform: scale(1.02); }
+	:where(main, footer) :where(button, summary, [role="button"]):not(:disabled):active { transform: none; }
+	:where(main, footer) details > summary:hover { color: var(--wp--preset--color--brand); }
+	:where(main, footer) :where(input, select, textarea):hover { border-color: var(--wp--preset--color--text); }
+	:where(.ugolini-related-card, .preview-related-card, .ugolini-discovery-card, .ugolini-cooking-grid article):has(a) { transition: transform 220ms var(--ugolini-motion-ease); }
+	:where(.ugolini-related-card, .preview-related-card, .ugolini-discovery-card, .ugolini-cooking-grid article):has(a):hover { box-shadow: none; transform: scale(1.015); }
+	:where(header, main, footer) :where(button, [role="button"], a):hover svg { transform: scale(1.06); }
+	:where(header, main, footer) :where(button, [role="button"], a) svg { transition: transform 180ms var(--ugolini-motion-ease); }
 }

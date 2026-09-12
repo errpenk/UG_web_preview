@@ -1,0 +1,28 @@
+[
+  {
+    "id": "sial-paris-2026-ugolini",
+    "title": "SIAL Paris 2026",
+    "startDate": "2026-10-17",
+    "endDate": "2026-10-21",
+    "location": "Parigi, Francia",
+    "image": "sial-paris-2026-ugolini.png",
+    "alt": "SIAL Paris 2026 con LuxurEat, Truffleat, Caviareat e Ugolini Gourmet",
+    "lead": "Parigi, arriviamo! 🇫🇷",
+    "description": "Vieni a trovarci a SIAL Paris 2026 e scopri il mondo di LuxurEat, Truffleat, Caviareat e Ugolini Gourmet. Tartufi, caviale e l’eccellenza gastronomica italiana si incontrano per ispirare nuovi sapori, idee e opportunità di business.",
+    "highlight": "Assapora l’eccellenza italiana. Ispira nuove opportunità.",
+    "brands": ["LuxurEat", "Truffleat", "Caviareat", "Ugolini Gourmet"]
+  },
+  {
+    "id": "sial-paris-2026-caviar",
+    "title": "SIAL Paris 2026",
+    "startDate": "2026-10-17",
+    "endDate": "2026-10-21",
+    "location": "Parigi, Francia",
+    "image": "sial-paris-2026-caviar.png",
+    "alt": "SIAL Paris 2026 con TinCaviar e Caviareat",
+    "lead": "Scopri l’eccellenza del caviale a SIAL Paris 2026.",
+    "description": "Incontra TinCaviar e Caviareat e scopri una selezione dedicata al caviale premium, alla qualità e al mercato internazionale del food. Dai prodotti d’eccellenza alle nuove opportunità di business, vieni a trovarci a Parigi e scopri il mondo del caviale.",
+    "highlight": "Assapora l’eccellenza. Scopri il caviale. Incontriamoci a Parigi.",
+    "brands": ["TinCaviar", "Caviareat"]
+  }
+]
