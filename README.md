@@ -275,3 +275,6 @@ space, limits Blog breadcrumbs to actual posts, and strengthens gallery arrows.
 
 V6.67 also overrides the Navigation block's mobile Shop flex rule so its label
 and submenu toggle stay on the same left-aligned row.
+
+V6.68 centers the mobile close glyph in the same 44px control used by submenu
+toggles and makes the native open state enforce an opaque header and breadcrumb.

@@ -275,6 +275,15 @@ for (const nav of document.querySelectorAll('.ugolini-primary-navigation')) {
 	current?.setAttribute('aria-current', 'page');
 }
 
+for (const menu of document.querySelectorAll('.ugolini-primary-navigation .wp-block-navigation__responsive-container')) {
+	const sync = () => {
+		document.body.classList.toggle('has-mobile-menu-open', menu.classList.contains('is-menu-open'));
+		dispatchEvent(new CustomEvent('ugolini:mobile-menu'));
+	};
+	new MutationObserver(sync).observe(menu, { attributes: true, attributeFilter: ['class'] });
+	sync();
+}
+
 const ugoliniNormalizePath = value => {
 	const path = new URL(value, location.href).pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '');
 	return path || '/';
@@ -483,8 +492,9 @@ for (const nav of document.querySelectorAll('.ugolini-primary-navigation')) {
 		link.addEventListener('click', () => showSection(ugoliniSectionTargets.get(target)));
 	}
 	const update = () => {
-		const topContext = !isProduct && scrollY <= 12 && document.body.classList.contains('is-header-engaged');
-		const visible = isProduct || scrollY > 12 || topContext;
+		const menuOpen = document.body.classList.contains('has-mobile-menu-open');
+		const topContext = !menuOpen && !isProduct && scrollY <= 12 && document.body.classList.contains('is-header-engaged');
+		const visible = menuOpen || isProduct || scrollY > 12 || topContext;
 		breadcrumb.classList.toggle('is-top-context', topContext);
 		breadcrumb.classList.toggle('is-visible', visible);
 		document.documentElement.style.setProperty('--ugolini-submenu-offset', visible ? '48px' : '0px');
@@ -499,6 +509,7 @@ for (const nav of document.querySelectorAll('.ugolini-primary-navigation')) {
 	addEventListener('scroll', update, { passive: true });
 	addEventListener('resize', update, { passive: true });
 	addEventListener('ugolini:header-engagement', update);
+	addEventListener('ugolini:mobile-menu', update);
 	update();
 	if (location.hash) requestAnimationFrame(() => document.querySelector(location.hash)?.scrollIntoView());
 })();
