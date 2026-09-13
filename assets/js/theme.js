@@ -453,7 +453,7 @@ for (const nav of document.querySelectorAll('.ugolini-primary-navigation')) {
 	const header = document.querySelector('body > header, header.wp-block-template-part');
 	if (!header) return;
 	const isProduct = Boolean(document.querySelector('.ugolini-product-page, .wp-block-surecart-product-page'));
-	const isArticle = document.body.classList.contains('single-post') || Boolean(document.querySelector('main article'));
+	const isArticle = document.body.classList.contains('single-post');
 	const isHome = ugoliniCurrentPath === '/';
 	const home = isHome ? '' : '<a class="ugolini-breadcrumbs__ancestor" href="/">Home</a><i class="ugolini-breadcrumbs__ancestor" aria-hidden="true"></i>';
 	const parent = isProduct ? '<a class="ugolini-breadcrumbs__ancestor" href="/shop/">Shop</a><i class="ugolini-breadcrumbs__ancestor" aria-hidden="true"></i>' : isArticle ? '<a class="ugolini-breadcrumbs__ancestor" href="/blog/">Blog</a><i class="ugolini-breadcrumbs__ancestor" aria-hidden="true"></i>' : '';

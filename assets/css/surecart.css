@@ -80,6 +80,9 @@
 .ugolini-product-gallery :where([class*="thumbnail"] img) { object-fit: cover !important; }
 .ugolini-product-gallery :where(button, [role="button"]) { min-width: 44px; min-height: 44px; border-color: rgb(23 23 20 / 24%); background: transparent !important; color: var(--wp--preset--color--text); }
 .ugolini-product-gallery :where(button, [role="button"]):hover { border-color: var(--wp--preset--color--white); background: var(--wp--preset--color--white) !important; color: var(--wp--preset--color--text); }
+.ugolini-product-gallery .sc-image-slider > .swiper > :where(.swiper-button-prev, .swiper-button-next) { width: 52px; height: 52px; border: 2px solid var(--wp--preset--color--text) !important; border-radius: 50%; background: rgb(255 255 255 / 92%) !important; color: var(--wp--preset--color--text) !important; opacity: 1; box-shadow: none !important; }
+.ugolini-product-gallery .sc-image-slider > .swiper > :where(.swiper-button-prev, .swiper-button-next)::after { font-size: 1.2rem; font-weight: 800; }
+.ugolini-product-gallery .sc-image-slider > .swiper > :where(.swiper-button-prev, .swiper-button-next)[aria-disabled="true"] { opacity: .42; }
 .ugolini-gallery-count { position: absolute; z-index: 3; right: 1rem; bottom: 1rem; padding: 0.25rem 0.45rem; color: var(--wp--preset--color--text); font-family: var(--wp--preset--font-family--interface); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; }
 .ugolini-product-summary { position: sticky; top: calc(var(--ugolini-header-height) + 2rem); }
 .ugolini-product-summary :where(.wp-block-surecart-product-title, h1) { margin: 0.4rem 0 1rem; font-family: var(--wp--preset--font-family--display); font-size: clamp(2.6rem, 4.4vw, 4.8rem) !important; font-weight: 400; letter-spacing: -0.035em; line-height: 1.05; }

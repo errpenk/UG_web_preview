@@ -269,3 +269,6 @@ include the professional assurance strip used by the main Shop page.
 V6.65 removes the detached navigation indicator and draws the underline on the
 URL-matched link itself. It also converts SureCart's block-level icon wrapper
 before WordPress formatting and gives all three header actions one centered box.
+
+V6.66 keeps the mobile navigation flush-left without separators or excess top
+space, limits Blog breadcrumbs to actual posts, and strengthens gallery arrows.
