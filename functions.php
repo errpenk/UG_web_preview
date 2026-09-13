@@ -55,7 +55,7 @@ function ugolini_group_page_pattern_content( $file ) {
  * WordPress revisions retain the replaced page bodies for recovery.
  */
 function ugolini_group_seed_preview_pages() {
-	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_pages_663_seeded' ) ) {
+	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_pages_664_seeded' ) ) {
 		return;
 	}
 
@@ -178,7 +178,7 @@ function ugolini_group_seed_preview_pages() {
 		flush_rewrite_rules( false );
 	}
 	if ( $complete ) {
-		update_option( 'ugolini_group_pages_663_seeded', 1, false );
+		update_option( 'ugolini_group_pages_664_seeded', 1, false );
 	}
 }
 add_action( 'init', 'ugolini_group_seed_preview_pages', 99 );
@@ -271,7 +271,7 @@ add_filter( 'render_block_core/post-date', 'ugolini_group_render_post_date' );
  * remain the single source of truth. Trashed copies remain recoverable.
  */
 function ugolini_group_reset_template_overrides() {
-	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_templates_663_reset' ) ) {
+	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_templates_664_reset' ) ) {
 		return;
 	}
 
@@ -295,7 +295,7 @@ function ugolini_group_reset_template_overrides() {
 			wp_trash_post( $override_id );
 		}
 	}
-	update_option( 'ugolini_group_templates_663_reset', 1, false );
+	update_option( 'ugolini_group_templates_664_reset', 1, false );
 }
 add_action( 'wp_loaded', 'ugolini_group_reset_template_overrides', 5 );
 
@@ -1280,6 +1280,19 @@ function ugolini_group_header_commerce_shortcode() {
 	return '<div class="ugolini-commerce-actions">' . $account . $cart . '</div>';
 }
 add_shortcode( 'ugolini_header_commerce', 'ugolini_group_header_commerce_shortcode' );
+
+/** Keep header shortcode markup out of the Shortcode block's wpautop pass. */
+function ugolini_group_render_header_shortcode( $block_content, $block ) {
+	$shortcode = trim( $block['innerHTML'] ?? '' );
+	if ( '[ugolini_search_overlay]' === $shortcode ) {
+		return ugolini_group_search_overlay_shortcode();
+	}
+	if ( '[ugolini_header_commerce]' === $shortcode ) {
+		return ugolini_group_header_commerce_shortcode();
+	}
+	return $block_content;
+}
+add_filter( 'render_block_core/shortcode', 'ugolini_group_render_header_shortcode', 10, 2 );
 
 /**
  * Render only business-approved reviews supplied by a site-level integration.

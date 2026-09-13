@@ -260,3 +260,8 @@ V6.63 hardens deployed WordPress parity: footer fallback branding and column
 alignment, stable three-icon header geometry, persistent transparent hero
 navigation, legacy Events shortcode expansion, hidden duplicate SureCart
 floating cart, and current-page indicator realignment after fonts load.
+
+V6.64 fixes WordPress-specific rendering: the hero now sits behind the fixed
+header without moving on hover, header shortcode output bypasses automatic
+paragraph markup, footer wordmark sizing is restored, and collection archives
+include the professional assurance strip used by the main Shop page.

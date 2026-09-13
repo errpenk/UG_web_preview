@@ -9,8 +9,8 @@
 .preview-footer-brand > .preview-logo-image { grid-column: 1; grid-row: 1 / span 2; }
 .ugolini-footer-brand > p,
 .preview-footer-brand > p { grid-column: 2; margin: 0; color: var(--wp--preset--color--secondary-text); font-size: 1rem; letter-spacing: 0; line-height: 1.6; text-align: left; }
-.ugolini-footer-brand a,
-.preview-footer-brand a { min-height: 0 !important; display: inline !important; margin: 0 !important; font: inherit; letter-spacing: inherit; text-transform: none; }
+.ugolini-footer-brand > p a,
+.preview-footer-brand > p a { min-height: 0 !important; display: inline !important; margin: 0 !important; font: inherit; letter-spacing: inherit; text-transform: none; }
 .ugolini-footer-grid > :not(.ugolini-footer-brand, .preview-footer-brand, .ugolini-footer-social) { width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: .85rem; }
 .ugolini-footer-grid h2,
 .ugolini-footer-grid h3 { color: inherit; }

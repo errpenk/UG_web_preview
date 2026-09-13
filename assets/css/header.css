@@ -187,13 +187,12 @@
 
 body > header:has(.ugolini-site-header),
 header.wp-block-template-part:has(.ugolini-site-header) { position: sticky; z-index: 100; top: calc(-1 * var(--ugolini-announcement-height)); }
-.has-overlay-header > header,
-.has-overlay-header > header.wp-block-template-part { position: fixed !important; z-index: 100; top: 0 !important; right: 0; left: 0; }
-.has-overlay-header:not(.is-scrolled) .ugolini-site-header { border-color: transparent; background: transparent; color: #fff; backdrop-filter: none; }
-.has-overlay-header:not(.is-scrolled) .ugolini-brand .wp-block-site-title a { filter: brightness(0) invert(1); }
-.has-overlay-header:not(.is-scrolled) .ugolini-site-header :where(a, button, summary) { color: #fff; }
-.has-overlay-header:not(.is-scrolled) .ugolini-mega-panel { color: var(--wp--preset--color--text); }
-.has-overlay-header:not(.is-scrolled) .ugolini-mega-panel a { color: var(--wp--preset--color--text) !important; }
+.has-overlay-header .wp-site-blocks > header.wp-block-template-part { position: fixed !important; z-index: 100; top: 0 !important; right: 0; left: 0; }
+.has-overlay-header:not(.is-scrolled):not(.is-header-engaged) .ugolini-site-header { border-color: transparent; background: transparent; color: #fff; backdrop-filter: none; }
+.has-overlay-header:not(.is-scrolled):not(.is-header-engaged) .ugolini-brand .wp-block-site-title a { filter: brightness(0) invert(1); }
+.has-overlay-header:not(.is-scrolled):not(.is-header-engaged) .ugolini-site-header :where(a, button, summary) { color: #fff; }
+.has-overlay-header:not(.is-scrolled):not(.is-header-engaged) .ugolini-mega-panel { color: var(--wp--preset--color--text); }
+.has-overlay-header:not(.is-scrolled):not(.is-header-engaged) .ugolini-mega-panel a { color: var(--wp--preset--color--text) !important; }
 body.admin-bar > header:has(.ugolini-site-header),
 body.admin-bar header.wp-block-template-part:has(.ugolini-site-header) { top: 0; }
 .ugolini-breadcrumbs { position: static; z-index: 95; height: 0; min-height: 0; display: flex; align-items: center; overflow: hidden; border: 0 solid var(--wp--preset--color--border); background: rgb(247 243 238 / 97%); color: var(--wp--preset--color--text); opacity: 0; pointer-events: none; backdrop-filter: blur(14px); transition: height 220ms cubic-bezier(.22,1,.36,1), min-height 220ms cubic-bezier(.22,1,.36,1), opacity 220ms ease; }
