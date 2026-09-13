@@ -2,6 +2,7 @@
 .ugolini-site-footer { background: var(--wp--preset--color--background); color: var(--wp--preset--color--text); }
 .ugolini-footer-grid { position: relative; display: grid; grid-template-columns: repeat(4, max-content); justify-content: space-between; align-items: start; column-gap: clamp(2rem, 4vw, 5rem); row-gap: clamp(2.5rem, 4vw, 4rem); padding-block: clamp(4rem, 7vw, 7rem); }
 .ugolini-footer-grid > * { margin-block-start: 0 !important; }
+.ugolini-footer-grid > :not(.ugolini-footer-social) > * { margin-inline: 0 !important; }
 .ugolini-footer-brand,
 .preview-footer-brand { max-width: none; display: grid; grid-template-columns: 190px minmax(0, 34rem); justify-content: start; align-items: start; gap: .75rem clamp(2rem, 4vw, 4rem); grid-column: 1 / -1; }
 .ugolini-footer-brand > :where(.wp-block-site-logo, .wp-block-site-title),
@@ -26,7 +27,7 @@
 .ugolini-footer-support .wp-block-navigation__container { align-items: flex-start !important; }
 .ugolini-footer-grid a:hover { text-decoration: none; }
 .ugolini-footer-brand .wp-block-site-logo img { filter: brightness(0); }
-.ugolini-footer-brand .wp-block-site-logo:not(:empty) + .wp-block-site-title { display: none; }
+.ugolini-footer-brand .wp-block-site-logo:has(img) + .wp-block-site-title { display: none; }
 .ugolini-footer-brand .wp-block-site-title { margin: 0 0 1.5rem; }
 .ugolini-footer-brand .wp-block-site-title a { width: 190px; height: 66px; display: block; overflow: hidden; background: url('../images/ugolini-wordmark.svg') left center / contain no-repeat; filter: brightness(0); font-size: 0; text-decoration: none; }
 .ugolini-footer-social { position: absolute; top: clamp(4rem, 7vw, 7rem); right: 0; display: flex; align-items: center; gap: .75rem; margin-top: 0; }

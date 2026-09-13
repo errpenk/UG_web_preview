@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+
+const read = path => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+const php = read('functions.php');
+const header = read('assets/css/header.css');
+const footer = read('assets/css/footer.css');
+const surecart = read('assets/css/surecart.css');
+const script = read('assets/js/theme.js');
+
+assert.match(php, /\[ugolini_events context="home"\].+ugolini_group_events_shortcode/);
+assert.match(php, /class="ugolini-commerce-actions"/);
+assert.ok(php.includes("preg_replace( '/>\\s+</'"));
+assert.match(header, /\.ugolini-commerce-actions \{ display: contents; \}/);
+assert.match(header, /\.has-overlay-header:not\(\.is-scrolled\) \.ugolini-site-header/);
+assert.match(footer, /\.wp-block-site-logo:has\(img\) \+ \.wp-block-site-title/);
+assert.match(surecart, /\.wp-block-surecart-cart-icon \{ display: none !important; \}/);
+assert.match(script, /firstSection\?\.querySelector\(':scope > :first-child:is\(/);
+assert.match(script, /shop\|products\?\|collections\?\|prodotto/);
+assert.doesNotMatch(script, /sessionStorage\.setItem\('ugolini-nav-from'/);
+
+console.log('Theme regression checks passed.');

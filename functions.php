@@ -55,7 +55,7 @@ function ugolini_group_page_pattern_content( $file ) {
  * WordPress revisions retain the replaced page bodies for recovery.
  */
 function ugolini_group_seed_preview_pages() {
-	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_pages_662_seeded' ) ) {
+	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_pages_663_seeded' ) ) {
 		return;
 	}
 
@@ -178,7 +178,7 @@ function ugolini_group_seed_preview_pages() {
 		flush_rewrite_rules( false );
 	}
 	if ( $complete ) {
-		update_option( 'ugolini_group_pages_662_seeded', 1, false );
+		update_option( 'ugolini_group_pages_663_seeded', 1, false );
 	}
 }
 add_action( 'init', 'ugolini_group_seed_preview_pages', 99 );
@@ -271,7 +271,7 @@ add_filter( 'render_block_core/post-date', 'ugolini_group_render_post_date' );
  * remain the single source of truth. Trashed copies remain recoverable.
  */
 function ugolini_group_reset_template_overrides() {
-	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_templates_625_reset' ) ) {
+	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_templates_663_reset' ) ) {
 		return;
 	}
 
@@ -295,7 +295,7 @@ function ugolini_group_reset_template_overrides() {
 			wp_trash_post( $override_id );
 		}
 	}
-	update_option( 'ugolini_group_templates_625_reset', 1, false );
+	update_option( 'ugolini_group_templates_663_reset', 1, false );
 }
 add_action( 'wp_loaded', 'ugolini_group_reset_template_overrides', 5 );
 
@@ -609,6 +609,8 @@ function ugolini_group_expand_legacy_shortcodes( $content ) {
 		'[ugolini_product_story]'        => 'ugolini_group_product_story_shortcode',
 		'[ugolini_product_guide]'        => 'ugolini_group_product_guide_shortcode',
 		'[ugolini_cooking_suggestions]'  => 'ugolini_group_cooking_suggestions_shortcode',
+		'[ugolini_events context="home"]' => static fn() => ugolini_group_events_shortcode( array( 'context' => 'home' ) ),
+		'[ugolini_events context="archive"]' => static fn() => ugolini_group_events_shortcode( array( 'context' => 'archive' ) ),
 	);
 	foreach ( $shortcodes as $token => $callback ) {
 		if ( false !== strpos( $content, $token ) ) {
@@ -1246,8 +1248,8 @@ add_action( 'rest_api_init', 'ugolini_group_register_live_search' );
 
 /** Render live WordPress search in an accessible editorial overlay. */
 function ugolini_group_search_overlay_shortcode() {
-	return '<button class="ugolini-search-open" type="button" aria-expanded="false" aria-controls="ugolini-search-dialog">' . ugolini_group_icon( 'search' ) . '<span class="screen-reader-text">' . esc_html__( 'Apri ricerca', 'ugolini-group' ) . '</span></button>' .
-		'<div id="ugolini-search-dialog" class="ugolini-search-dialog" role="dialog" aria-modal="true" aria-labelledby="ugolini-search-title" hidden><div class="ugolini-search-dialog-inner"><button class="ugolini-search-close" type="button">' . ugolini_group_icon( 'x' ) . '<span class="screen-reader-text">' . esc_html__( 'Chiudi ricerca', 'ugolini-group' ) . '</span></button><form action="' . esc_url( home_url( '/' ) ) . '" method="get" role="search" data-live-search data-search-endpoint="' . esc_url( rest_url( 'ugolini/v1/search' ) ) . '"><label id="ugolini-search-title" for="ugolini-search-input">' . esc_html__( 'Cerca prodotti, collezioni e ricette', 'ugolini-group' ) . '</label><div class="ugolini-search-row"><input id="ugolini-search-input" name="s" type="search" placeholder="' . esc_attr__( 'Cosa stai cercando?', 'ugolini-group' ) . '" autocomplete="off" aria-controls="ugolini-live-search-results"><button type="submit">' . ugolini_group_icon( 'search' ) . esc_html__( 'Cerca', 'ugolini-group' ) . '</button></div><div id="ugolini-live-search-results" class="ugolini-live-search" aria-live="polite" hidden></div></form></div></div>';
+	return '<div class="ugolini-search-action"><button class="ugolini-search-open" type="button" aria-expanded="false" aria-controls="ugolini-search-dialog">' . ugolini_group_icon( 'search' ) . '<span class="screen-reader-text">' . esc_html__( 'Apri ricerca', 'ugolini-group' ) . '</span></button>' .
+		'<div id="ugolini-search-dialog" class="ugolini-search-dialog" role="dialog" aria-modal="true" aria-labelledby="ugolini-search-title" hidden><div class="ugolini-search-dialog-inner"><button class="ugolini-search-close" type="button">' . ugolini_group_icon( 'x' ) . '<span class="screen-reader-text">' . esc_html__( 'Chiudi ricerca', 'ugolini-group' ) . '</span></button><form action="' . esc_url( home_url( '/' ) ) . '" method="get" role="search" data-live-search data-search-endpoint="' . esc_url( rest_url( 'ugolini/v1/search' ) ) . '"><label id="ugolini-search-title" for="ugolini-search-input">' . esc_html__( 'Cerca prodotti, collezioni e ricette', 'ugolini-group' ) . '</label><div class="ugolini-search-row"><input id="ugolini-search-input" name="s" type="search" placeholder="' . esc_attr__( 'Cosa stai cercando?', 'ugolini-group' ) . '" autocomplete="off" aria-controls="ugolini-live-search-results"><button type="submit">' . ugolini_group_icon( 'search' ) . esc_html__( 'Cerca', 'ugolini-group' ) . '</button></div><div id="ugolini-live-search-results" class="ugolini-live-search" aria-live="polite" hidden></div></form></div></div></div>';
 }
 add_shortcode( 'ugolini_search_overlay', 'ugolini_group_search_overlay_shortcode' );
 
@@ -1273,9 +1275,9 @@ add_filter( 'render_block_core/query-title', 'ugolini_group_search_heading' );
 function ugolini_group_header_commerce_shortcode() {
 	$account = '<a class="ugolini-header-icon" href="' . esc_url( home_url( '/customer-dashboard/' ) ) . '" aria-label="' . esc_attr__( 'Account', 'ugolini-group' ) . '">' . ugolini_group_icon( 'user' ) . '</a>';
 	$cart = shortcode_exists( 'sc_cart_menu_icon' )
-		? '<span class="ugolini-surecart-cart">' . do_shortcode( '[sc_cart_menu_icon cart_icon="shopping-bag" cart_menu_always_shown=1]' ) . '</span>'
+		? '<span class="ugolini-surecart-cart">' . preg_replace( '/>\s+</', '><', do_shortcode( '[sc_cart_menu_icon cart_icon="shopping-bag" cart_menu_always_shown=1]' ) ) . '</span>'
 		: '<a class="ugolini-header-icon" href="' . esc_url( home_url( '/checkout/' ) ) . '" aria-label="' . esc_attr__( 'Carrello', 'ugolini-group' ) . '">' . ugolini_group_icon( 'shopping-bag' ) . '</a>';
-	return $account . $cart;
+	return '<div class="ugolini-commerce-actions">' . $account . $cart . '</div>';
 }
 add_shortcode( 'ugolini_header_commerce', 'ugolini_group_header_commerce_shortcode' );
 

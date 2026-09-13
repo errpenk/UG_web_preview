@@ -119,7 +119,8 @@
 .ugolini-product-summary .sc-quantity-selector,
 .ugolini-product-summary .sc-quantity-selector > * { background: var(--wp--preset--color--white) !important; }
 
-:where(.wp-block-surecart-cart-menu-icon-button, .wp-block-surecart-cart-icon) { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+.wp-block-surecart-cart-menu-icon-button { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+.wp-block-surecart-cart-icon { display: none !important; }
 :where(.wp-block-surecart-cart, .wp-block-surecart-slide-out-cart, sc-cart) { color: var(--wp--preset--color--text); }
 :where(.wp-block-surecart-cart-line-item) { padding-block: 1rem; border-bottom: 1px solid var(--wp--preset--color--border); }
 

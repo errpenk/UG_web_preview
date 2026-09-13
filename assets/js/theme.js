@@ -233,6 +233,7 @@ for (const story of document.querySelectorAll('[data-service-story]')) {
 }
 
 const ugoliniCurrentPath = location.pathname.replace(/\/(?:index\.html)?$/, '') || '/';
+const ugoliniIsShopPath = /\/(?:shop|products?|collections?|prodotto)(?:\/|$)/.test(ugoliniCurrentPath);
 const ugoliniClosePageSubmenus = except => {
 	for (const submenu of document.querySelectorAll('.ugolini-page-submenu.is-open')) {
 		if (submenu === except) continue;
@@ -256,7 +257,7 @@ if (ugoliniShopMenu) {
 		closeTimer = setTimeout(() => { if (innerWidth >= 768 && !ugoliniShopMenu.classList.contains('is-panel-visible')) ugoliniShopMenu.open = false; }, 220);
 	};
 	ugoliniCloseShopMenu = close;
-	if (/\/(?:shop|prodotto)(?:\/|$)/.test(ugoliniCurrentPath)) ugoliniShopMenu.classList.add('is-current');
+	if (ugoliniIsShopPath) ugoliniShopMenu.classList.add('is-current');
 	ugoliniShopMenu.addEventListener('mouseenter', open);
 	ugoliniShopMenu.addEventListener('focusin', open);
 	ugoliniShopMenu.addEventListener('focusout', () => requestAnimationFrame(() => { if (!ugoliniShopMenu.contains(document.activeElement)) ugoliniShopMenu.open = false; }));
@@ -266,30 +267,22 @@ for (const nav of document.querySelectorAll('.ugolini-primary-navigation')) {
 	const list = nav.querySelector('.wp-block-navigation__container, ul');
 	const links = list ? [...list.querySelectorAll(':scope > li > a, :scope > li > .wp-block-navigation-item__content')] : [];
 	if (!list || !links.length) continue;
+	links.forEach(link => link.classList.remove('is-current'));
 	let current = links.find(link => { const path = new URL(link.href, location.href).pathname.replace(/\/(?:index\.html)?$/, '') || '/'; return path === ugoliniCurrentPath; });
 	if (!current && document.body.classList.contains('single-post')) current = links.find(link => link.textContent.trim() === 'Blog');
+	if (!current && ugoliniIsShopPath) links.find(link => link.textContent.trim() === 'Shop')?.classList.add('is-current');
 	current?.classList.add('is-current');
 	const indicator = document.createElement('span');
 	indicator.className = 'ugolini-nav-indicator';
 	list.append(indicator);
-	const storageKey = 'ugolini-nav-from';
-	let previous = '';
-	try { previous = sessionStorage.getItem(storageKey) || ''; sessionStorage.removeItem(storageKey); } catch (error) {}
-	const pointTo = (link, moving = false) => {
-		if (!link || innerWidth < 768) { indicator.style.opacity = '0'; return; }
-		indicator.classList.toggle('is-moving', moving);
+	const pointTo = link => {
+		if (!link || innerWidth < 768 || ugoliniIsShopPath) { indicator.style.opacity = '0'; return; }
 		indicator.style.opacity = '1'; indicator.style.width = `${link.offsetWidth}px`; indicator.style.transform = `translateX(${link.offsetLeft}px)`;
 	};
-	links.forEach(link => link.addEventListener('click', () => {
-		if (!current) return;
-		try { sessionStorage.setItem(storageKey, current.textContent.trim()); } catch (error) {}
-	}));
 	addEventListener('resize', () => pointTo(current), { passive: true });
-	const previousLink = previous && links.find(link => link.textContent.trim() === previous);
-	if (previousLink && current && previousLink !== current) {
-		pointTo(previousLink);
-		requestAnimationFrame(() => requestAnimationFrame(() => pointTo(current, true)));
-	} else pointTo(current);
+	addEventListener('load', () => pointTo(current), { once: true });
+	document.fonts?.ready.then(() => pointTo(current));
+	pointTo(current);
 }
 
 const ugoliniNormalizePath = value => {
@@ -433,7 +426,8 @@ for (const nav of document.querySelectorAll('.ugolini-primary-navigation')) {
 	const header = document.querySelector('body > header, header.wp-block-template-part');
 	const firstSection = document.querySelector('main > :first-child, main > article > :first-child');
 	if (!header) return;
-	if (firstSection?.matches('.ugolini-hero, .ugolini-page-hero, .preview-article-hero')) document.body.classList.add('has-overlay-header');
+	const hero = firstSection?.matches('.ugolini-hero, .ugolini-page-hero, .ugolini-single-hero, .preview-article-hero') || firstSection?.querySelector(':scope > :first-child:is(.ugolini-hero, .ugolini-page-hero, .ugolini-single-hero, .preview-article-hero)');
+	if (hero) document.body.classList.add('has-overlay-header');
 	const update = () => document.body.classList.toggle('is-scrolled', scrollY > 12);
 	const engage = engaged => {
 		document.body.classList.toggle('is-header-engaged', engaged);

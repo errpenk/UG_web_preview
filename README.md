@@ -256,3 +256,7 @@ guide with four accessible accordions to every product page.
 Ugolini Gourmet supplies factual content and media. Urbani is used only as a
 visual reference for premium ecommerce hierarchy and rhythm. No Urbani copy,
 products, imagery, branding or claims are included.
+V6.63 hardens deployed WordPress parity: footer fallback branding and column
+alignment, stable three-icon header geometry, persistent transparent hero
+navigation, legacy Events shortcode expansion, hidden duplicate SureCart
+floating cart, and current-page indicator realignment after fonts load.
