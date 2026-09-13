@@ -63,6 +63,7 @@
 	.ugolini-primary-navigation .ugolini-has-page-submenu > :where(a, .wp-block-navigation-item__content) { width: auto; }
 	.ugolini-primary-navigation .ugolini-submenu-toggle { width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
 	.ugolini-primary-navigation .ugolini-submenu-toggle::before { content: ""; width: 9px; height: 9px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: none; }
+	.ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open .ugolini-submenu-toggle::before { transition: none; }
 	.ugolini-primary-navigation .ugolini-submenu-toggle[aria-expanded="true"]::before { transform: translateY(2px) rotate(225deg); }
 	.ugolini-primary-navigation ul.ugolini-page-submenu { position: static; inset: auto; width: 100%; display: none; grid-column: 1 / -1; gap: 0; padding: 0 0 1rem 1rem; border: 0; background: transparent; box-shadow: none; }
 	.ugolini-primary-navigation ul.ugolini-page-submenu.is-open { display: grid; }

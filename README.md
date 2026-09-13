@@ -278,3 +278,6 @@ and submenu toggle stay on the same left-aligned row.
 
 V6.68 centers the mobile close glyph in the same 44px control used by submenu
 toggles and makes the native open state enforce an opaque header and breadcrumb.
+
+V6.69 removes the remaining high-specificity toggle delay and shows the first
+section in the breadcrumb when the mobile menu opens at the top of a page.

@@ -504,6 +504,7 @@ for (const nav of document.querySelectorAll('.ugolini-primary-navigation')) {
 		const edge = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ugolini-header-bottom')) + 72;
 		if (topContext) active = 'Sottomenu';
 		else for (const [target, label] of ugoliniSectionTargets) if (target.getBoundingClientRect().top <= edge) active = label;
+		if (menuOpen && !active) active = ugoliniSectionTargets.values().next().value || '';
 		showSection(active);
 	};
 	addEventListener('scroll', update, { passive: true });

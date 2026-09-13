@@ -33,8 +33,10 @@ assert.match(responsive, /\.wp-block-navigation__responsive-container\.is-menu-o
 assert.match(responsive, /\.wp-block-navigation-item \{ width: 100%; align-items: stretch; border: 0 !important; text-align: left; \}/);
 assert.match(responsive, /\.wp-block-navigation__responsive-container-close,[\s\S]+width: 44px; min-width: 44px; height: 44px; min-height: 44px; display: grid !important; place-items: center;/);
 assert.match(responsive, /touch-action: manipulation;/);
+assert.match(responsive, /\.wp-block-navigation__responsive-container\.is-menu-open \.ugolini-submenu-toggle::before \{ transition: none; \}/);
 assert.match(script, /new MutationObserver\(sync\)\.observe\(menu/);
 assert.match(script, /const visible = menuOpen \|\| isProduct \|\| scrollY > 12 \|\| topContext;/);
+assert.match(script, /if \(menuOpen && !active\) active = ugoliniSectionTargets\.values\(\)\.next\(\)\.value \|\| '';/);
 assert.doesNotMatch(script, /Boolean\(document\.querySelector\('main article'\)\)/);
 assert.match(surecart, /\.swiper-button-prev, \.swiper-button-next\) \{ width: 52px; height: 52px; border: 2px/);
 assert.match(surecart, /box-shadow: none !important;/);
