@@ -38,6 +38,7 @@
 	.ugolini-header-inner > .wp-block-shortcode { display: none; }
 	.ugolini-header-inner .ugolini-mega-menu { display: none !important; }
 	.ugolini-primary-navigation .ugolini-mobile-shop-link { display: flex !important; }
+	.ugolini-primary-navigation .ugolini-mobile-shop-link.ugolini-has-page-submenu { display: grid !important; }
 	.ugolini-brand { grid-column: 2; grid-row: 1; justify-self: center; }
 	.ugolini-brand .wp-block-site-logo img { width: 145px; max-height: 50px; }
 	.ugolini-brand .wp-block-site-title a { width: 145px; height: 50px; }
@@ -48,7 +49,7 @@
 	.ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open { position: fixed !important; top: var(--ugolini-header-bottom) !important; right: 0 !important; bottom: 0 !important; left: 0 !important; z-index: 1000; width: 100vw !important; height: auto !important; max-height: none !important; padding: 1.5rem; overflow-y: auto; background: var(--wp--preset--color--background); color: var(--wp--preset--color--text); transition: top 220ms cubic-bezier(.22,1,.36,1); }
 	body.has-overlay-header:not(.is-scrolled) .ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open,
 	body.has-overlay-header:not(.is-scrolled) .ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open :where(a, button) { color: var(--wp--preset--color--text) !important; }
-	.ugolini-primary-navigation .wp-block-navigation__responsive-container-content { padding-top: 0; align-items: stretch; }
+	.ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content { padding-top: 3.5rem; align-items: stretch; }
 	.ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container { position: static !important; inset: auto !important; width: 100%; max-height: none; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start !important; gap: 0; padding: 0; overflow: visible; border: 0; }
 	.ugolini-primary-navigation .wp-block-navigation-item { width: 100%; align-items: stretch; border: 0 !important; text-align: left; }
 	.ugolini-primary-navigation .wp-block-navigation-item__content { width: 100%; min-height: 64px; justify-content: flex-start !important; margin-inline: 0 !important; font-family: var(--wp--preset--font-family--display); font-size: 1.8rem; font-weight: 400; letter-spacing: -0.01em; text-align: left; text-transform: none; }
