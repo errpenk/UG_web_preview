@@ -265,3 +265,7 @@ V6.64 fixes WordPress-specific rendering: the hero now sits behind the fixed
 header without moving on hover, header shortcode output bypasses automatic
 paragraph markup, footer wordmark sizing is restored, and collection archives
 include the professional assurance strip used by the main Shop page.
+
+V6.65 removes the detached navigation indicator and draws the underline on the
+URL-matched link itself. It also converts SureCart's block-level icon wrapper
+before WordPress formatting and gives all three header actions one centered box.

@@ -99,8 +99,10 @@
 .ugolini-mega-menu > summary:hover,
 .ugolini-primary-navigation .wp-block-navigation-item__content:hover,
 .ugolini-primary-navigation #preview-menu > li > a:hover { transform: scale(1.06); }
-.ugolini-nav-indicator { position: absolute; right: auto; bottom: 3px; left: 0; width: 0; height: 2px; border-radius: 999px; background: currentColor; pointer-events: none; transition: none; }
-.ugolini-nav-indicator.is-moving { transition: transform 420ms cubic-bezier(.22,1,.36,1), width 420ms cubic-bezier(.22,1,.36,1); }
+@media (min-width: 768px) {
+	.ugolini-primary-navigation .wp-block-navigation__container > .wp-block-navigation-item > .wp-block-navigation-item__content.is-current { position: relative; }
+	.ugolini-primary-navigation .wp-block-navigation__container > .wp-block-navigation-item > .wp-block-navigation-item__content.is-current::after { content: ""; position: absolute; right: 0; bottom: 3px; left: 0; height: 2px; border-radius: 999px; background: currentColor; pointer-events: none; }
+}
 .ugolini-primary-navigation .wp-block-navigation-item__content:hover { text-decoration: none; }
 .ugolini-primary-navigation .ugolini-mobile-shop-link { display: none !important; }
 .ugolini-primary-navigation :where(.wp-block-navigation__responsive-container-open, .wp-block-navigation__responsive-container-close) { min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
@@ -111,7 +113,6 @@
 .ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container { width: 100%; align-items: stretch; gap: 0; }
 .ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item { width: 100%; border-bottom: 1px solid var(--wp--preset--color--border); }
 .ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content { min-height: 64px; font-family: var(--wp--preset--font-family--display); font-size: 1.8rem; font-weight: 400; letter-spacing: -.01em; text-transform: none; }
-.ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open .ugolini-nav-indicator { display: none; }
 .ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open .ugolini-has-page-submenu { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 44px; align-items: center; }
 .ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open .ugolini-has-page-submenu > .wp-block-navigation-item__content { width: max-content; max-width: 100%; justify-self: start; padding-bottom: .7rem; }
 .ugolini-primary-navigation .wp-block-navigation__responsive-container.is-menu-open .ugolini-submenu-toggle { width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
@@ -159,10 +160,10 @@
 
 .ugolini-header-actions { justify-self: end; display: grid; grid-template-columns: repeat(3, 44px); align-items: center; gap: 0.5rem; }
 .ugolini-header-actions .wp-block-shortcode { display: contents; margin: 0; }
-.ugolini-header-actions > p,
-.ugolini-search-action,
-.ugolini-commerce-actions { display: contents; }
+.ugolini-header-actions > :is(p, .ugolini-search-action, .ugolini-commerce-actions) { display: contents; }
 .ugolini-surecart-cart { --sc-color-primary-500: var(--wp--preset--color--brand); display: inline-flex; }
+.ugolini-surecart-cart .sc-cart-icon { width: 21px; height: 21px; display: grid; place-items: center; line-height: 0; }
+.ugolini-surecart-cart .sc-cart-icon svg { display: block; }
 .ugolini-search-open,
 .ugolini-search-close {
 	min-width: 44px;
@@ -178,7 +179,7 @@
 	text-transform: uppercase;
 }
 .ugolini-header-actions .lucide, .ugolini-search-open .lucide { width: 21px; height: 21px; display: block; }
-.ugolini-header-actions :where(a, button) { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+.ugolini-header-actions :where(.ugolini-search-open, .ugolini-header-icon, .wp-block-surecart-cart-menu-icon-button) { width: 44px; min-width: 44px; height: 44px; min-height: 44px; display: inline-flex; align-self: center; align-items: center; justify-content: center; margin: 0; padding: 0.5rem; line-height: 0; vertical-align: middle; }
 .ugolini-header-icon { position: relative; width: 44px; height: 44px; color: inherit; text-decoration: none; }
 .ugolini-cart-count, .preview-cart-count { position: absolute; top: 1px; right: 0; min-width: 16px; height: 16px; display: grid; place-items: center; border-radius: 999px; background: var(--wp--preset--color--brand); color: #fff; font-size: 0.58rem; line-height: 1; }
 .ugolini-header-actions .wp-block-search__button { min-width: 44px; min-height: 44px; padding: 0; border: 0; background: transparent; color: currentColor; }

@@ -55,7 +55,7 @@ function ugolini_group_page_pattern_content( $file ) {
  * WordPress revisions retain the replaced page bodies for recovery.
  */
 function ugolini_group_seed_preview_pages() {
-	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_pages_664_seeded' ) ) {
+	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_pages_665_seeded' ) ) {
 		return;
 	}
 
@@ -178,7 +178,7 @@ function ugolini_group_seed_preview_pages() {
 		flush_rewrite_rules( false );
 	}
 	if ( $complete ) {
-		update_option( 'ugolini_group_pages_664_seeded', 1, false );
+		update_option( 'ugolini_group_pages_665_seeded', 1, false );
 	}
 }
 add_action( 'init', 'ugolini_group_seed_preview_pages', 99 );
@@ -271,7 +271,7 @@ add_filter( 'render_block_core/post-date', 'ugolini_group_render_post_date' );
  * remain the single source of truth. Trashed copies remain recoverable.
  */
 function ugolini_group_reset_template_overrides() {
-	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_templates_664_reset' ) ) {
+	if ( ! current_user_can( 'manage_options' ) || get_option( 'ugolini_group_templates_665_reset' ) ) {
 		return;
 	}
 
@@ -295,7 +295,7 @@ function ugolini_group_reset_template_overrides() {
 			wp_trash_post( $override_id );
 		}
 	}
-	update_option( 'ugolini_group_templates_664_reset', 1, false );
+	update_option( 'ugolini_group_templates_665_reset', 1, false );
 }
 add_action( 'wp_loaded', 'ugolini_group_reset_template_overrides', 5 );
 
@@ -1274,9 +1274,14 @@ add_filter( 'render_block_core/query-title', 'ugolini_group_search_heading' );
 /** Header account/cart links share the same Lucide visual language. */
 function ugolini_group_header_commerce_shortcode() {
 	$account = '<a class="ugolini-header-icon" href="' . esc_url( home_url( '/customer-dashboard/' ) ) . '" aria-label="' . esc_attr__( 'Account', 'ugolini-group' ) . '">' . ugolini_group_icon( 'user' ) . '</a>';
-	$cart = shortcode_exists( 'sc_cart_menu_icon' )
-		? '<span class="ugolini-surecart-cart">' . preg_replace( '/>\s+</', '><', do_shortcode( '[sc_cart_menu_icon cart_icon="shopping-bag" cart_menu_always_shown=1]' ) ) . '</span>'
-		: '<a class="ugolini-header-icon" href="' . esc_url( home_url( '/checkout/' ) ) . '" aria-label="' . esc_attr__( 'Carrello', 'ugolini-group' ) . '">' . ugolini_group_icon( 'shopping-bag' ) . '</a>';
+	if ( shortcode_exists( 'sc_cart_menu_icon' ) ) {
+		$cart_markup = do_shortcode( '[sc_cart_menu_icon cart_icon="shopping-bag" cart_menu_always_shown=1]' );
+		$cart_markup = preg_replace( '/<div(\s+class="sc-cart-icon"[^>]*)>/', '<span$1>', $cart_markup, 1 );
+		$cart_markup = preg_replace( '#</div>\s*</a>#', '</span></a>', $cart_markup, 1 );
+		$cart        = '<span class="ugolini-surecart-cart">' . preg_replace( '/>\s+</', '><', $cart_markup ) . '</span>';
+	} else {
+		$cart = '<a class="ugolini-header-icon" href="' . esc_url( home_url( '/checkout/' ) ) . '" aria-label="' . esc_attr__( 'Carrello', 'ugolini-group' ) . '">' . ugolini_group_icon( 'shopping-bag' ) . '</a>';
+	}
 	return '<div class="ugolini-commerce-actions">' . $account . $cart . '</div>';
 }
 add_shortcode( 'ugolini_header_commerce', 'ugolini_group_header_commerce_shortcode' );

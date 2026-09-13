@@ -267,22 +267,12 @@ for (const nav of document.querySelectorAll('.ugolini-primary-navigation')) {
 	const list = nav.querySelector('.wp-block-navigation__container, ul');
 	const links = list ? [...list.querySelectorAll(':scope > li > a, :scope > li > .wp-block-navigation-item__content')] : [];
 	if (!list || !links.length) continue;
-	links.forEach(link => link.classList.remove('is-current'));
+	links.forEach(link => { link.classList.remove('is-current'); link.removeAttribute('aria-current'); });
 	let current = links.find(link => { const path = new URL(link.href, location.href).pathname.replace(/\/(?:index\.html)?$/, '') || '/'; return path === ugoliniCurrentPath; });
 	if (!current && document.body.classList.contains('single-post')) current = links.find(link => link.textContent.trim() === 'Blog');
-	if (!current && ugoliniIsShopPath) links.find(link => link.textContent.trim() === 'Shop')?.classList.add('is-current');
+	if (!current && ugoliniIsShopPath) current = links.find(link => link.textContent.trim() === 'Shop');
 	current?.classList.add('is-current');
-	const indicator = document.createElement('span');
-	indicator.className = 'ugolini-nav-indicator';
-	list.append(indicator);
-	const pointTo = link => {
-		if (!link || innerWidth < 768 || ugoliniIsShopPath) { indicator.style.opacity = '0'; return; }
-		indicator.style.opacity = '1'; indicator.style.width = `${link.offsetWidth}px`; indicator.style.transform = `translateX(${link.offsetLeft}px)`;
-	};
-	addEventListener('resize', () => pointTo(current), { passive: true });
-	addEventListener('load', () => pointTo(current), { once: true });
-	document.fonts?.ready.then(() => pointTo(current));
-	pointTo(current);
+	current?.setAttribute('aria-current', 'page');
 }
 
 const ugoliniNormalizePath = value => {
